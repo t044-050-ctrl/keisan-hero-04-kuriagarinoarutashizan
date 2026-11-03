@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>計算ヒーロー02</title>
-  <meta property="og:title" content="計算ヒーロー02">
-    <meta property="og:description" content="【１年算数たしざん】くりあがりのあるたしざんの練習アプリです。">
-    <meta property="og:type" content="website">
+  <title>計算ヒーロー - くりあがりのあるたしざん</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -117,6 +114,13 @@
       background: #fbcfe8;
       border-radius: 10px;
     }
+
+    /* 長押しによるメニュー表示・文字列選択の完全無効化 */
+    * {
+      -webkit-touch-callout: none !important;
+      -webkit-user-select: none !important;
+      user-select: none !important;
+    }
   </style>
 </head>
 
@@ -187,10 +191,14 @@
         </div>
 
         <!-- スタートボタン -->
-        <div class="mb-2 z-10 w-full max-w-xs">
-          <button onclick="startGameFromTitle()" class="w-full bg-gradient-to-r from-amber-400 via-rose-500 to-pink-500 hover:from-amber-500 hover:to-pink-600 text-white font-black text-2xl sm:text-3xl py-3 sm:py-4 px-8 rounded-3xl shadow-[0_6px_0_#be123c] active:translate-y-1.5 active:shadow-none transition-all flex items-center justify-center gap-3 font-fredoka tracking-wider border-2 border-white">
-            <i class="fa-solid fa-play text-2xl animate-pulse"></i>
+        <div class="mb-2 z-10 w-full max-w-xs flex gap-2">
+          <button onclick="startGameFromTitle()" class="flex-1 bg-gradient-to-r from-amber-400 via-rose-500 to-pink-500 hover:from-amber-500 hover:to-pink-600 text-white font-black text-xl sm:text-2xl py-2.5 sm:py-3.5 px-4 rounded-3xl shadow-[0_5px_0_#be123c] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 font-fredoka tracking-wider border-2 border-white">
+            <i class="fa-solid fa-play text-xl animate-pulse"></i>
             <span>スタート</span>
+          </button>
+          <button onclick="openZukanModal()" class="bg-gradient-to-r from-sky-400 to-blue-600 hover:from-sky-500 hover:to-blue-700 text-white font-black text-xl sm:text-2xl py-2.5 sm:py-3.5 px-4 rounded-3xl shadow-[0_5px_0_#1e40af] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 font-fredoka tracking-wider border-2 border-white whitespace-nowrap">
+            <i class="fa-solid fa-book-open text-xl"></i>
+            <span>ずかん</span>
           </button>
         </div>
       </div>
@@ -214,7 +222,7 @@
           </div>
         </div>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3">
           <div class="flex items-center gap-1.5 bg-amber-50 border-2 border-amber-300 px-3 py-1 rounded-full text-amber-700 font-extrabold text-xs sm:text-sm shadow-sm">
             <i class="fa-solid fa-coins text-amber-500 text-base"></i>
             <span id="score-text" class="font-fredoka text-base sm:text-lg">0</span> pt
@@ -225,6 +233,11 @@
               <div id="bonus-bar" class="bg-gradient-to-r from-amber-400 to-pink-500 h-full w-0 transition-all duration-500"></div>
             </div>
           </div>
+          <!-- ステージ上部「ずかん」ボタン -->
+          <button onclick="openZukanModal()" class="bg-gradient-to-r from-sky-400 to-blue-600 hover:from-sky-500 hover:to-blue-700 text-white font-black text-xs sm:text-sm py-1.5 px-3 rounded-xl shadow-[0_3px_0_#1e40af] active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-1 border border-white font-fredoka">
+            <i class="fa-solid fa-book-open"></i>
+            <span>ずかん</span>
+          </button>
         </div>
       </div>
 
@@ -458,6 +471,35 @@
     </div>
   </div>
 
+  <!-- ========================================== -->
+  <!-- 【モーダル 3】ヒーローずかん モーダル -->
+  <!-- ========================================== -->
+  <div id="zukan-modal" class="fixed inset-0 bg-pink-950/80 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+    <div class="w-full max-w-4xl aspect-[16/9] max-h-[96vh] bg-white rounded-3xl p-3 sm:p-5 shadow-2xl border-4 border-sky-300 flex flex-col justify-between relative overflow-hidden">
+      
+      <div class="flex justify-between items-center bg-sky-50 px-4 py-2 rounded-2xl border border-sky-200">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-book-open text-sky-500 text-xl"></i>
+          <h2 class="text-base sm:text-xl font-black text-sky-700">
+            ヒーローずかん (ぜん20しゅるい)
+          </h2>
+        </div>
+        <button onclick="closeZukanModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-black text-xs sm:text-sm py-1.5 px-4 rounded-xl shadow active:translate-y-0.5 transition-all">
+          <i class="fa-solid fa-xmark mr-1"></i>とじる
+        </button>
+      </div>
+
+      <!-- 20人のヒーローグリッド -->
+      <div id="zukan-grid" class="flex-1 my-2 overflow-y-auto grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2.5 p-2 bg-slate-50 rounded-2xl border border-sky-100">
+      </div>
+
+      <div class="text-center text-xs sm:text-sm font-bold text-sky-600 bg-sky-50 py-1.5 rounded-xl border border-sky-200">
+        ゲームをあそんでポイントをためると、ヒーローたちがやってくるよ！
+      </div>
+
+    </div>
+  </div>
+
   <!-- JavaScript App Logic -->
   <script>
     // ==========================================
@@ -575,26 +617,26 @@
     // 2. 7頭身ヒーロー20種データ & 多彩なポーズSVG生成
     // ==========================================
     const HEROES_DATA = [
-      { id: 1, name: 'さくらレッド', color: '#ef4444', suit: '#f87171', pose: 'ray-pose' },
-      { id: 2, name: 'アクアブルー', color: '#06b6d4', suit: '#38bdf8', pose: 'fist-up' },
-      { id: 3, name: 'サンシャインイエロー', color: '#eab308', suit: '#facc15', pose: 'kick-pose' },
-      { id: 4, name: 'リーフグリーン', color: '#22c55e', suit: '#4ade80', pose: 'arms-crossed' },
-      { id: 5, name: 'ベリーピンク', color: '#ec4899', suit: '#f472b6', pose: 'v-sign' },
-      { id: 6, name: 'ナイトパープル', color: '#a855f7', suit: '#c084fc', pose: 'hands-on-hips' },
-      { id: 7, name: 'ビタミンオレンジ', color: '#f97316', suit: '#fb923c', pose: 'fist-up' },
-      { id: 8, name: 'マリンシアン', color: '#0284c7', suit: '#38bdf8', pose: 'ray-pose' },
-      { id: 9, name: 'ゴールドカイザー', color: '#d97706', suit: '#fbbf24', pose: 'kick-pose' },
-      { id: 10, name: 'ローズクイーン', color: '#e11d48', suit: '#fb7185', pose: 'v-sign' },
-      { id: 11, name: 'スカイブルー', color: '#0ea5e9', suit: '#7dd3fc', pose: 'hands-on-hips' },
-      { id: 12, name: 'ライムナイト', color: '#84cc16', suit: '#a3e635', pose: 'fist-up' },
-      { id: 13, name: 'ルビーレッド', color: '#b91c1c', suit: '#f87171', pose: 'ray-pose' },
-      { id: 14, name: 'シャイニーシルバー', color: '#64748b', suit: '#94a3b8', pose: 'arms-crossed' },
-      { id: 15, name: 'キャンディピンク', color: '#f43f5e', suit: '#fda4af', pose: 'v-sign' },
-      { id: 16, name: 'コズミックネイビー', color: '#1e3a8a', suit: '#3b82f6', pose: 'kick-pose' },
-      { id: 17, name: 'エメラルドヒーロー', color: '#059669', suit: '#34d399', pose: 'fist-up' },
-      { id: 18, name: 'アンバービースト', color: '#b45309', suit: '#f59e0b', pose: 'hands-on-hips' },
-      { id: 19, name: 'プリンセススター', color: '#d946ef', suit: '#f0abfc', pose: 'v-sign' },
-      { id: 20, name: 'ウルトラホワイト', color: '#475569', suit: '#cbd5e1', pose: 'ray-pose' }
+      { id: 1, name: 'さくらレッド', color: '#ef4444', suit: '#f87171', colorName: 'あか', pose: 'pose-1', poseName: 'ひっさつこうせん' },
+      { id: 2, name: 'アクアブルー', color: '#06b6d4', suit: '#38bdf8', colorName: 'みず', pose: 'pose-2', poseName: 'かたてガッツ' },
+      { id: 3, name: 'サンシャインイエロー', color: '#eab308', suit: '#facc15', colorName: 'きいろ', pose: 'pose-3', poseName: 'ダイナミックキック' },
+      { id: 4, name: 'リーフグリーン', color: '#22c55e', suit: '#4ade80', colorName: 'みどり', pose: 'pose-4', poseName: 'うでくみ' },
+      { id: 5, name: 'ベリーピンク', color: '#ec4899', suit: '#f472b6', colorName: 'ピンク', pose: 'pose-5', poseName: 'ダブルピース' },
+      { id: 6, name: 'ナイトパープル', color: '#a855f7', suit: '#c084fc', colorName: 'むらさき', pose: 'pose-6', poseName: 'におうだち' },
+      { id: 7, name: 'ビタミンオレンジ', color: '#f97316', suit: '#fb923c', colorName: 'オレンジ', pose: 'pose-7', poseName: 'ダブルガッツ' },
+      { id: 8, name: 'マリンシアン', color: '#0284c7', suit: '#38bdf8', colorName: 'シアン', pose: 'pose-8', poseName: 'スピードダッシュ' },
+      { id: 9, name: 'ゴールドカイザー', color: '#d97706', suit: '#fbbf24', colorName: 'きん', pose: 'pose-9', poseName: 'カイザースラッシュ' },
+      { id: 10, name: 'ローズクイーン', color: '#e11d48', suit: '#fb7185', colorName: 'ローズ', pose: 'pose-10', poseName: 'ローズバリア' },
+      { id: 11, name: 'スカイブルー', color: '#0ea5e9', suit: '#7dd3fc', colorName: 'そらいろ', pose: 'pose-11', poseName: 'ウィングポーズ' },
+      { id: 12, name: 'ライムナイト', color: '#84cc16', suit: '#a3e635', colorName: 'ライム', pose: 'pose-12', poseName: 'ライムパンチ' },
+      { id: 13, name: 'ルビーレッド', color: '#b91c1c', suit: '#f87171', colorName: 'ルビー', pose: 'pose-13', poseName: 'ルビースパーク' },
+      { id: 14, name: 'シャイニーシルバー', color: '#64748b', suit: '#94a3b8', colorName: 'ぎん', pose: 'pose-14', poseName: 'シルバーガード' },
+      { id: 15, name: 'キャンディピンク', color: '#f43f5e', suit: '#fda4af', colorName: 'もも', pose: 'pose-15', poseName: 'ハートポーズ' },
+      { id: 16, name: 'コズミックネイビー', color: '#1e3a8a', suit: '#3b82f6', colorName: 'ネイビー', pose: 'pose-16', poseName: 'コズミックチャージ' },
+      { id: 17, name: 'エメラルドヒーロー', color: '#059669', suit: '#34d399', colorName: 'エメラルド', pose: 'pose-17', poseName: 'エメラルドビーム' },
+      { id: 18, name: 'アンバービースト', color: '#b45309', suit: '#f59e0b', colorName: 'アンバー', pose: 'pose-18', poseName: 'ビーストロアー' },
+      { id: 19, name: 'プリンセススター', color: '#d946ef', suit: '#f0abfc', colorName: 'パープル', pose: 'pose-19', poseName: 'スターライト' },
+      { id: 20, name: 'ウルトラホワイト', color: '#475569', suit: '#cbd5e1', colorName: 'しろ', pose: 'pose-20', poseName: 'ウルトラクロス' }
     ];
 
     let unlockedHeroIds = [];
@@ -605,46 +647,136 @@
 
       let armsAndLegsSVG = '';
 
-      if (hero.pose === 'ray-pose') {
+      if (hero.pose === 'pose-1') {
         armsAndLegsSVG = `
           <path d="M 28 58 L 16 88 L 8 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
           <path d="M 32 58 L 44 88 L 52 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
           <path d="M 14 36 L 46 36" stroke="${c}" stroke-width="6.5" stroke-linecap="round"/>
           <path d="M 36 22 L 36 50" stroke="${c}" stroke-width="6.5" stroke-linecap="round"/>
         `;
-      } else if (hero.pose === 'kick-pose') {
-        armsAndLegsSVG = `
-          <path d="M 27 58 L 22 88 L 15 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
-          <path d="M 33 58 L 52 48 L 58 36" stroke="${c}" stroke-width="6.5" stroke-linecap="round" fill="none"/>
-          <path d="M 20 38 L 8 28" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
-          <path d="M 40 38 L 52 24" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
-        `;
-      } else if (hero.pose === 'fist-up') {
+      } else if (hero.pose === 'pose-2') {
         armsAndLegsSVG = `
           <path d="M 26 58 L 18 88 L 12 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
           <path d="M 34 58 L 42 88 L 48 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
           <path d="M 22 38 L 12 50" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
           <path d="M 38 38 L 48 12" stroke="${c}" stroke-width="6.5" stroke-linecap="round"/>
         `;
-      } else if (hero.pose === 'hands-on-hips') {
+      } else if (hero.pose === 'pose-3') {
+        armsAndLegsSVG = `
+          <path d="M 27 58 L 22 88 L 15 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 33 58 L 52 48 L 58 36" stroke="${c}" stroke-width="6.5" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 L 8 28" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 40 38 L 52 24" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
+        `;
+      } else if (hero.pose === 'pose-4') {
+        armsAndLegsSVG = `
+          <path d="M 28 58 L 24 88 L 18 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 32 58 L 38 88 L 44 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 18 38 Q 30 46 42 38" stroke="${c}" stroke-width="7" stroke-linecap="round" fill="none"/>
+        `;
+      } else if (hero.pose === 'pose-5') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 18 88 L 12 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 42 88 L 48 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 22 38 L 10 20 M 10 20 L 6 12 M 10 20 L 14 12" stroke="${c}" stroke-width="5.5" stroke-linecap="round"/>
+          <path d="M 38 38 L 50 20 M 50 20 L 46 12 M 50 20 L 54 12" stroke="${c}" stroke-width="5.5" stroke-linecap="round"/>
+        `;
+      } else if (hero.pose === 'pose-6') {
         armsAndLegsSVG = `
           <path d="M 26 58 L 14 88 L 8 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
           <path d="M 34 58 L 46 88 L 52 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
           <path d="M 20 38 L 10 46 L 22 48" stroke="${c}" stroke-width="5.5" stroke-linecap="round" fill="none"/>
           <path d="M 40 38 L 50 46 L 38 48" stroke="${c}" stroke-width="5.5" stroke-linecap="round" fill="none"/>
         `;
-      } else if (hero.pose === 'arms-crossed') {
+      } else if (hero.pose === 'pose-7') {
         armsAndLegsSVG = `
-          <path d="M 28 58 L 24 88 L 18 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
-          <path d="M 32 58 L 38 88 L 44 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
-          <path d="M 18 38 Q 30 46 42 38" stroke="${c}" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <path d="M 26 58 L 18 88 L 12 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 42 88 L 48 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 22 38 L 12 16 M 38 38 L 48 16" stroke="${c}" stroke-width="6.5" stroke-linecap="round"/>
+        `;
+      } else if (hero.pose === 'pose-8') {
+        armsAndLegsSVG = `
+          <path d="M 28 58 L 12 78 L 6 90" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 32 58 L 48 72 L 56 82" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 L 6 52 M 40 38 L 54 26" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
+        `;
+      } else if (hero.pose === 'pose-9') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 16 88 L 10 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 44 88 L 50 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 L 8 46" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 40 38 L 54 18" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 54 18 L 58 6" stroke="#facc15" stroke-width="4" stroke-linecap="round"/>
+        `;
+      } else if (hero.pose === 'pose-10') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 18 88 L 12 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 42 88 L 48 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 L 28 32 M 40 38 L 32 32" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="30" cy="32" r="14" stroke="#fb7185" stroke-width="2.5" fill="none" stroke-dasharray="3 2"/>
+        `;
+      } else if (hero.pose === 'pose-11') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 18 88 L 12 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 42 88 L 48 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 L 4 30 M 40 38 L 56 30" stroke="${c}" stroke-width="6.5" stroke-linecap="round"/>
+        `;
+      } else if (hero.pose === 'pose-12') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 14 84 L 8 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 44 88 L 52 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 L 12 48" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 40 38 L 58 38" stroke="${c}" stroke-width="7" stroke-linecap="round"/>
+        `;
+      } else if (hero.pose === 'pose-13') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 18 88 L 12 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 42 88 L 48 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 L 28 38 M 40 38 L 32 38" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="30" cy="38" r="4" fill="#facc15"/>
+        `;
+      } else if (hero.pose === 'pose-14') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 18 88 L 12 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 42 88 L 48 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 40 L 36 28 M 40 40 L 24 28" stroke="${c}" stroke-width="6.5" stroke-linecap="round"/>
+        `;
+      } else if (hero.pose === 'pose-15') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 18 88 L 12 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 42 88 L 48 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 Q 20 10 30 14 Q 40 10 40 38" stroke="${c}" stroke-width="5" stroke-linecap="round" fill="none"/>
+        `;
+      } else if (hero.pose === 'pose-16') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 12 70 L 6 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 48 70 L 54 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 L 30 68 M 40 38 L 30 68" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
+        `;
+      } else if (hero.pose === 'pose-17') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 18 88 L 12 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 42 88 L 48 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 L 10 50 M 40 38 L 30 18" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
+        `;
+      } else if (hero.pose === 'pose-18') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 14 88 L 8 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 46 88 L 52 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 L 10 28 M 40 38 L 50 28" stroke="${c}" stroke-width="6.5" stroke-linecap="round"/>
+        `;
+      } else if (hero.pose === 'pose-19') {
+        armsAndLegsSVG = `
+          <path d="M 26 58 L 18 88 L 12 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 34 58 L 42 88 L 48 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M 20 38 L 12 48 M 40 38 L 52 14" stroke="${c}" stroke-width="6" stroke-linecap="round"/>
+          <polygon points="52,8 54,12 58,12 55,15 56,19 52,16 48,19 49,15 46,12 50,12" fill="#facc15"/>
         `;
       } else {
         armsAndLegsSVG = `
           <path d="M 26 58 L 18 88 L 12 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
           <path d="M 34 58 L 42 88 L 48 88" stroke="${c}" stroke-width="6" stroke-linecap="round" fill="none"/>
-          <path d="M 22 38 L 10 20 M 10 20 L 6 12 M 10 20 L 14 12" stroke="${c}" stroke-width="5.5" stroke-linecap="round"/>
-          <path d="M 38 38 L 50 20 M 50 20 L 46 12 M 50 20 L 54 12" stroke="${c}" stroke-width="5.5" stroke-linecap="round"/>
+          <path d="M 20 38 L 38 12 M 40 38 L 22 12" stroke="${c}" stroke-width="6.5" stroke-linecap="round"/>
         `;
       }
 
@@ -670,11 +802,30 @@
         const hero = HEROES_DATA.find(h => h.id === id);
         if (hero) {
           const div = document.createElement('div');
-          div.className = 'flex flex-col items-center flex-shrink-0 animate-pop-in';
-          div.innerHTML = createHeroSVG(hero, 60);
+          div.className = 'flex flex-col items-center flex-shrink-0 animate-pop-in relative pointer-events-none';
+          div.innerHTML = `
+            ${createHeroSVG(hero, 60)}
+          `;
           dock.appendChild(div);
         }
       });
+    }
+
+    function showHeroBubble(heroElem) {
+      playSound('tap');
+      const bubble = heroElem.querySelector('.hero-bubble');
+      if (!bubble) return;
+
+      if (heroElem._bubbleTimer) {
+        clearTimeout(heroElem._bubbleTimer);
+      }
+
+      bubble.classList.remove('opacity-0');
+
+      heroElem._bubbleTimer = setTimeout(() => {
+        bubble.classList.add('opacity-0');
+        heroElem._bubbleTimer = null;
+      }, 3000);
     }
 
     // ==========================================
@@ -832,15 +983,34 @@
     let stagePointsGained = 0;
     let draggedNumber = null;
 
-    function generateProblems() {
-      const probs = [];
-      while (probs.length < 3) {
-        const n1 = Math.floor(Math.random() * 8) + 2; // 2〜9
-        const n2 = Math.floor(Math.random() * 8) + 2; // 2〜9
-        const sum = n1 + n2;
-        if (sum >= 11 && sum <= 18) {
-          probs.push({ num1: n1, num2: n2, answer: sum });
+    // 計算問題の重複防止プール（全問題一巡管理）
+    let problemPool = [];
+
+    function initProblemPool() {
+      const pool = [];
+      for (let n1 = 2; n1 <= 9; n1++) {
+        for (let n2 = 2; n2 <= 9; n2++) {
+          const sum = n1 + n2;
+          if (sum >= 11 && sum <= 18) {
+            pool.push({ num1: n1, num2: n2, answer: sum });
+          }
         }
+      }
+      // シャッフル
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      return pool;
+    }
+
+    function generateProblems() {
+      if (problemPool.length < 3) {
+        problemPool = initProblemPool();
+      }
+      const probs = [];
+      for (let i = 0; i < 3; i++) {
+        probs.push(problemPool.pop());
       }
       return probs;
     }
@@ -932,6 +1102,7 @@
         btn.addEventListener('touchstart', (e) => handleTouchStart(e, i), { passive: false });
         btn.addEventListener('touchmove', handleTouchMove, { passive: false });
         btn.addEventListener('touchend', handleTouchEnd, { passive: false });
+        btn.addEventListener('touchcancel', cleanupTouchElement, { passive: false });
 
         grid.appendChild(btn);
       }
@@ -957,7 +1128,15 @@
 
     let touchDragElement = null;
 
+    function cleanupTouchElement() {
+      if (touchDragElement) {
+        touchDragElement.remove();
+        touchDragElement = null;
+      }
+    }
+
     function handleTouchStart(e, num) {
+      cleanupTouchElement();
       draggedNumber = num;
       playSound('tap');
       const touch = e.touches[0];
@@ -981,10 +1160,10 @@
     function handleTouchEnd(e) {
       if (!touchDragElement) return;
       const touch = e.changedTouches[0];
-      touchDragElement.remove();
-      touchDragElement = null;
-
       const target = document.elementFromPoint(touch.clientX, touch.clientY);
+      
+      cleanupTouchElement();
+
       if (!target) return;
 
       const dropZone = target.closest('.drop-zone');
@@ -997,20 +1176,6 @@
           processCherryDrop(draggedNumber, 'right');
         }
       }
-    }
-
-    function handleDrop(e) {
-      e.preventDefault();
-      e.currentTarget.classList.remove('drag-over');
-      const num = parseInt(e.dataTransfer.getData('text/plain'));
-      if (!isNaN(num)) processAnswerDrop(num);
-    }
-
-    function handleCherryDrop(e, side) {
-      e.preventDefault();
-      e.currentTarget.classList.remove('drag-over');
-      const num = parseInt(e.dataTransfer.getData('text/plain'));
-      if (!isNaN(num)) processCherryDrop(num, side);
     }
 
     // ヒントボタン
@@ -1533,8 +1698,89 @@
       }
     }
 
+    // ==========================================
+    // 8. ヒーローずかん モーダル制御
+    // ==========================================
+    function renderZukanGrid() {
+      const grid = document.getElementById('zukan-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      HEROES_DATA.forEach(hero => {
+        const isUnlocked = unlockedHeroIds.includes(hero.id);
+        const card = document.createElement('div');
+        card.className = `bg-white rounded-2xl p-2 border-2 ${isUnlocked ? 'border-sky-400 shadow-md bg-gradient-to-b from-white to-sky-50/50' : 'border-gray-200 opacity-60'} flex flex-col items-center justify-between text-center relative overflow-hidden transition-all`;
+        
+        card.innerHTML = `
+          <!-- 枠内の左上に色名バッジ -->
+          <div class="absolute top-1 left-1.5 bg-sky-100 text-sky-800 border border-sky-300 font-black text-[10px] px-1.5 py-0.2 rounded-md shadow-xs">
+            ${hero.colorName}
+          </div>
+
+          <!-- 解放済み（ステージ左下に登場したヒーロー）のゲットバッジ -->
+          ${isUnlocked ? `
+            <div class="absolute top-1 right-1.5 bg-amber-400 text-amber-950 font-black text-[9px] px-1.5 py-0.2 rounded-full shadow-xs flex items-center gap-0.5">
+              <i class="fa-solid fa-star text-white"></i>ゲット!
+            </div>
+          ` : ''}
+
+          <!-- 名前表示（左下に現れたヒーローは名前プレートをハイライト表示） -->
+          <div class="text-[11px] font-black ${isUnlocked ? 'text-sky-800 bg-sky-100 border border-sky-300 shadow-xs' : 'text-gray-400 bg-gray-100'} px-2 py-0.5 rounded-full mb-1 w-full truncate font-fredoka text-center mt-3">
+            ${isUnlocked ? hero.name : '？？？？？'}
+          </div>
+
+          <div class="my-1 flex items-center justify-center h-20 ${isUnlocked ? '' : 'brightness-0 opacity-25'}">
+            ${createHeroSVG(hero, 50)}
+          </div>
+
+          <div class="text-[10px] font-bold text-gray-600 bg-gray-100 px-2 py-0.5 rounded-lg w-full truncate mt-1">
+            <i class="fa-solid fa-bolt text-amber-500 mr-0.5"></i>${hero.poseName}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openZukanModal() {
+      playSound('tap');
+      renderZukanGrid();
+      const modal = document.getElementById('zukan-modal');
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    function closeZukanModal() {
+      playSound('tap');
+      const modal = document.getElementById('zukan-modal');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
     // アプリ起動
     window.onload = function() {
+      // 長押し・右クリックによるコンテキストメニューの表示を防止
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+      }, false);
+
+      // タッチ失敗・キャンセル時にも確実に赤カード表示を消去
+      window.addEventListener('touchcancel', cleanupTouchElement, false);
+      window.addEventListener('touchend', function() {
+        setTimeout(cleanupTouchElement, 100);
+      }, false);
+
+      // ダブルタップによる画面拡大やコンテキスト処理を防止
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+          e.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, false);
+
       initApp();
     };
   </script>
