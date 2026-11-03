@@ -3,11 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>計算ヒーロー03</title>
-  <meta property="og:title" content="計算ヒーロー03">
-    <meta property="og:description" content="【１年算数たしざん】くりあがりのあるたしざんの練習アプリです。">
-    <meta property="og:type" content="website">
-  
+  <title>計算ヒーロー - くりあがりのあるたしざん</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -505,7 +501,82 @@
   </div>
 
   <!-- JavaScript App Logic -->
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // ==========================================
+    // 0. クラウドセーブ & ロード システム
+    // ==========================================
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'math-hero-app';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+
+    let db = null;
+    let auth = null;
+    let currentUser = null;
+
+    async function initFirebaseAndLoad() {
+      if (!firebaseConfig) return;
+      try {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        auth = getAuth(app);
+
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          const userCred = await signInWithCustomToken(auth, __initial_auth_token);
+          currentUser = userCred.user;
+        } else {
+          const userCred = await signInAnonymously(auth);
+          currentUser = userCred.user;
+        }
+
+        if (currentUser) {
+          await loadGameProgress();
+        }
+      } catch (err) {
+        console.error("セーブ機能の初期化エラー:", err);
+      }
+    }
+
+    async function saveGameProgress() {
+      if (!db || !currentUser) return;
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'gameData', 'progress');
+        await setDoc(docRef, {
+          unlockedHeroIds: unlockedHeroIds,
+          totalScore: totalScore,
+          stage: stage,
+          connectedDotCount: connectedDotCount,
+          nextBonusScoreThreshold: nextBonusScoreThreshold,
+          updatedAt: Date.now()
+        }, { merge: true });
+      } catch (err) {
+        console.error("セーブ失敗:", err);
+      }
+    }
+
+    async function loadGameProgress() {
+      if (!db || !currentUser) return;
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'gameData', 'progress');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (Array.isArray(data.unlockedHeroIds)) unlockedHeroIds = data.unlockedHeroIds;
+          if (typeof data.totalScore === 'number') totalScore = data.totalScore;
+          if (typeof data.stage === 'number') stage = data.stage;
+          if (typeof data.connectedDotCount === 'number') connectedDotCount = data.connectedDotCount;
+          if (typeof data.nextBonusScoreThreshold === 'number') nextBonusScoreThreshold = data.nextBonusScoreThreshold;
+
+          updateHeroDock();
+          updateHeaderUI();
+        }
+      } catch (err) {
+        console.error("ロード失敗:", err);
+      }
+    }
+
     // ==========================================
     // 1. サウンドシステム (Web Audio API)
     // ==========================================
@@ -1317,6 +1388,7 @@
 
         problemIndex++;
         updateHeaderUI();
+        saveGameProgress(); // 進行状況を自動セーブ
 
         setTimeout(() => {
           if (problemIndex >= 3) {
@@ -1441,6 +1513,7 @@
 
       overlay.classList.remove('opacity-0');
       updateHeroDock();
+      saveGameProgress(); // 新しいヒーロー獲得を即座にセーブ
 
       confetti({
         particleCount: 100,
@@ -1461,6 +1534,8 @@
         connectedDotCount = 0;
         loadRandomMotif(); // モチーフをランダム切り替え
       }
+
+      saveGameProgress(); // 点つなぎ状況をセーブ
 
       // ボーナス判定 (50ptごと)
       if (totalScore >= nextBonusScoreThreshold) {
@@ -1762,6 +1837,17 @@
       }
     }
 
+    // HTML属性イベント用にウィンドウオブジェクトへマッピング
+    window.startGameFromTitle = startGameFromTitle;
+    window.openZukanModal = openZukanModal;
+    window.closeZukanModal = closeZukanModal;
+    window.finishDotStage = finishDotStage;
+    window.toggleHint = toggleHint;
+    window.handleDragOver = handleDragOver;
+    window.handleDragLeave = handleDragLeave;
+    window.handleCherryDrop = (e, side) => { e.preventDefault(); processCherryDrop(draggedNumber, side); };
+    window.handleDrop = (e) => { e.preventDefault(); processAnswerDrop(draggedNumber); };
+
     // アプリ起動
     window.onload = function() {
       // 長押し・右クリックによるコンテキストメニューの表示を防止
@@ -1786,6 +1872,7 @@
       }, false);
 
       initApp();
+      initFirebaseAndLoad(); // 起動時にセーブデータを自動ロード
     };
   </script>
 </body>
