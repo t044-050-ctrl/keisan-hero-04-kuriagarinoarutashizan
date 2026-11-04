@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>計算ヒーロー03</title>
-  <meta property="og:title" content="計算ヒーロー03">
-    <meta property="og:description" content="【１年算数たしざん】くりあがりのあるたしざんの練習アプリです。">
-    <meta property="og:type" content="website">
+  <title>計算ヒーロー - くりあがりのあるたしざん</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -505,78 +502,64 @@
 
   <!-- JavaScript App Logic -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
     // ==========================================
-    // 0. クラウドセーブ & ロード システム
+    // 0. このChromebook・ブラウザ内への自動セーブ＆ロード
     // ==========================================
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'math-hero-app';
-    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+    // localStorageを使うため、アカウント登録やFirebaseの設定は不要。
+    const SAVE_DATA_KEY = 'math-hero-app-progress-v1';
 
-    let db = null;
-    let auth = null;
-    let currentUser = null;
-
-    async function initFirebaseAndLoad() {
-      if (!firebaseConfig) return;
+    function saveGameProgress() {
       try {
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        auth = getAuth(app);
-
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          const userCred = await signInWithCustomToken(auth, __initial_auth_token);
-          currentUser = userCred.user;
-        } else {
-          const userCred = await signInAnonymously(auth);
-          currentUser = userCred.user;
-        }
-
-        if (currentUser) {
-          await loadGameProgress();
-        }
+        const saveData = {
+          unlockedHeroIds,
+          totalScore,
+          stage,
+          connectedDotCount,
+          nextBonusScoreThreshold,
+          currentMotifIndex,
+          problemIndex,
+          currentProblems,
+          problemPool,
+          stagePointsGained,
+          savedAt: Date.now()
+        };
+        localStorage.setItem(SAVE_DATA_KEY, JSON.stringify(saveData));
       } catch (err) {
-        console.error("セーブ機能の初期化エラー:", err);
+        console.error('セーブ失敗:', err);
       }
     }
 
-    async function saveGameProgress() {
-      if (!db || !currentUser) return;
+    function loadGameProgress() {
       try {
-        const docRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'gameData', 'progress');
-        await setDoc(docRef, {
-          unlockedHeroIds: unlockedHeroIds,
-          totalScore: totalScore,
-          stage: stage,
-          connectedDotCount: connectedDotCount,
-          nextBonusScoreThreshold: nextBonusScoreThreshold,
-          updatedAt: Date.now()
-        }, { merge: true });
-      } catch (err) {
-        console.error("セーブ失敗:", err);
-      }
-    }
+        const raw = localStorage.getItem(SAVE_DATA_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (!data || typeof data !== 'object') return false;
 
-    async function loadGameProgress() {
-      if (!db || !currentUser) return;
-      try {
-        const docRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'gameData', 'progress');
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          if (Array.isArray(data.unlockedHeroIds)) unlockedHeroIds = data.unlockedHeroIds;
-          if (typeof data.totalScore === 'number') totalScore = data.totalScore;
-          if (typeof data.stage === 'number') stage = data.stage;
-          if (typeof data.connectedDotCount === 'number') connectedDotCount = data.connectedDotCount;
-          if (typeof data.nextBonusScoreThreshold === 'number') nextBonusScoreThreshold = data.nextBonusScoreThreshold;
-
-          updateHeroDock();
-          updateHeaderUI();
+        if (Array.isArray(data.unlockedHeroIds)) {
+          unlockedHeroIds = data.unlockedHeroIds.filter(id => HEROES_DATA.some(hero => hero.id === id));
         }
+        if (Number.isFinite(data.totalScore)) totalScore = data.totalScore;
+        if (Number.isFinite(data.stage)) stage = Math.max(1, data.stage);
+        if (Number.isFinite(data.connectedDotCount)) connectedDotCount = Math.max(0, Math.min(100, data.connectedDotCount));
+        if (Number.isFinite(data.nextBonusScoreThreshold)) nextBonusScoreThreshold = data.nextBonusScoreThreshold;
+        if (Number.isInteger(data.currentMotifIndex) && data.currentMotifIndex >= 0 && data.currentMotifIndex < MOTIFS.length) {
+          currentMotifIndex = data.currentMotifIndex;
+          dotPoints = MOTIFS[currentMotifIndex].fn();
+        }
+        if (Number.isInteger(data.problemIndex)) problemIndex = Math.max(0, Math.min(3, data.problemIndex));
+        if (Array.isArray(data.currentProblems) && data.currentProblems.length === 3 && data.currentProblems.every(p => p && Number.isFinite(p.num1) && Number.isFinite(p.num2) && Number.isFinite(p.answer))) {
+          currentProblems = data.currentProblems;
+        }
+        if (Array.isArray(data.problemPool)) problemPool = data.problemPool;
+        if (Number.isFinite(data.stagePointsGained)) stagePointsGained = data.stagePointsGained;
+
+        updateHeroDock();
+        updateHeaderUI();
+        return true;
       } catch (err) {
-        console.error("ロード失敗:", err);
+        console.error('ロード失敗:', err);
+        return false;
       }
     }
 
@@ -1094,9 +1077,26 @@
     }
 
     function initApp() {
-      loadRandomMotif();
+      const hasSavedProgress = loadGameProgress();
+      if (!hasSavedProgress || !dotPoints.length) {
+        loadRandomMotif();
+      } else {
+        document.getElementById('motif-name').innerText = MOTIFS[currentMotifIndex].name;
+      }
       renderNumberCards();
-      startStage();
+
+      if (hasSavedProgress && currentProblems.length === 3) {
+        if (problemIndex >= 3) {
+          // 3問目の正解直後に終了していた場合は、点つなぎから再開する
+          stage++;
+          updateHeaderUI();
+          openDotModal(stagePointsGained);
+        } else {
+          renderProblem();
+        }
+      } else {
+        startStage();
+      }
     }
 
     function startGameFromTitle() {
@@ -1116,6 +1116,7 @@
       stagePointsGained = 0;
       updateHeaderUI();
       renderProblem();
+      saveGameProgress();
     }
 
     function renderProblem() {
@@ -1538,14 +1539,13 @@
         loadRandomMotif(); // モチーフをランダム切り替え
       }
 
-      saveGameProgress(); // 点つなぎ状況をセーブ
-
       // ボーナス判定 (50ptごと)
       if (totalScore >= nextBonusScoreThreshold) {
         nextBonusScoreThreshold += 50;
+        saveGameProgress();
         startBonusStage();
       } else {
-        startStage();
+        startStage(); // ステージ開始時に自動セーブ
       }
     }
 
@@ -1875,7 +1875,12 @@
       }, false);
 
       initApp();
-      initFirebaseAndLoad(); // 起動時にセーブデータを自動ロード
+
+      // タブを閉じる・再読み込みする直前にも最新状態を保存
+      window.addEventListener('pagehide', saveGameProgress);
+      document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'hidden') saveGameProgress();
+      });
     };
   </script>
 </body>
