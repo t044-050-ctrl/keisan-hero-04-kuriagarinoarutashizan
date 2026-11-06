@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>計算ヒーロー03</title>
-  <meta property="og:title" content="計算ヒーロー03">
-    <meta property="og:description" content="【１年算数たしざん】くりあがりのあるたしざんの練習アプリです。">
-    <meta property="og:type" content="website">
+  <title>計算ヒーロー - くりあがりのあるたしざん</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -155,41 +152,87 @@
           </p>
         </div>
 
-        <!-- 中央：さくらレッド（写真右側の腰を深く落とした低姿勢ポーズ・マントなし・静止・0.7倍） -->
+        <!-- 中央：サンシャインイエロー（かっこいい黄色のヒーロー・静止・0.75倍） -->
         <div class="my-auto flex items-center justify-center z-10">
-          <svg class="w-52 h-36 sm:w-80 sm:h-52 drop-shadow-xl" style="transform: scale(0.7);" viewBox="0 0 140 100">
-            <!-- 脚（低姿勢・深曲げ前脚＆大きく斜め横へ伸ばした脚） -->
-            <path d="M 62 62 L 108 82 L 125 86" stroke="#ef4444" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <path d="M 62 62 L 108 82 L 125 86" stroke="#f87171" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <path d="M 108 82 L 128 88" stroke="#1e293b" stroke-width="11" stroke-linecap="round" fill="none"/>
+          <svg class="w-52 h-36 sm:w-80 sm:h-52 drop-shadow-2xl" style="transform: scale(0.75);" viewBox="0 0 140 100">
+            <defs>
+              <linearGradient id="yellow-hero-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fef08a"/>
+                <stop offset="50%" stop-color="#facc15"/>
+                <stop offset="100%" stop-color="#ca8a04"/>
+              </linearGradient>
+              <linearGradient id="gold-armor-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#fbbf24"/>
+                <stop offset="100%" stop-color="#d97706"/>
+              </linearGradient>
+              <linearGradient id="dark-suit-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#334155"/>
+                <stop offset="100%" stop-color="#0f172a"/>
+              </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="2" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
 
-            <path d="M 52 62 L 25 65 L 12 86" stroke="#ef4444" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <path d="M 52 62 L 25 65 L 12 86" stroke="#f87171" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <path d="M 22 75 L 8 88" stroke="#1e293b" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <!-- 背後スパーク / エフェクト (稲妻) -->
+            <path d="M 20 20 L 35 32 L 28 42 L 42 36" stroke="#fef08a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.8"/>
+            <path d="M 115 15 L 102 30 L 110 35 L 98 48" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.8"/>
+            <circle cx="110" cy="18" r="2" fill="#fff"/>
+            <circle cx="25" cy="25" r="2.5" fill="#facc15"/>
 
-            <path d="M 62 64 L 106 82" stroke="#facc15" stroke-width="2.5" stroke-dasharray="4 2" fill="none"/>
-            <path d="M 52 64 L 25 67" stroke="#facc15" stroke-width="2.5" fill="none"/>
+            <!-- 後ろマント（ゴールド〜オレンジグラデーション） -->
+            <path d="M 48 38 Q 25 30 10 42 Q 22 58 46 60 Z" fill="url(#gold-armor-grad)" opacity="0.9" stroke="#b45309" stroke-width="1.5"/>
 
-            <!-- 胴体 -->
-            <path d="M 45 38 L 68 38 L 62 65 L 48 65 Z" fill="#f87171" stroke="#ef4444" stroke-width="3"/>
-            <path d="M 47 40 L 56.5 54 L 66 40 L 61 40 L 56.5 48 L 52 40 Z" fill="#facc15" stroke="#1e293b" stroke-width="1"/>
-            <rect x="46" y="60" width="18" height="5" rx="2" fill="#facc15" stroke="#1e293b" stroke-width="1"/>
+            <!-- 脚（深い踏み込み・低姿勢） -->
+            <path d="M 62 62 L 108 80 L 126 84" stroke="url(#dark-suit-grad)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M 62 62 L 108 80 L 126 84" stroke="url(#yellow-hero-grad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M 106 78 L 128 85 L 122 90 Z" fill="#0f172a" stroke="#facc15" stroke-width="1.5"/>
 
-            <!-- 腕 -->
-            <path d="M 62 40 L 92 24 L 108 14" stroke="#ef4444" stroke-width="8.5" stroke-linecap="round" fill="none"/>
-            <path d="M 62 40 L 92 24 L 108 14" stroke="#f87171" stroke-width="5" stroke-linecap="round" fill="none"/>
-            <path d="M 100 18 L 112 10 M 112 10 L 115 5 M 112 10 L 118 10 M 112 10 L 116 15" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M 52 62 L 26 65 L 12 86" stroke="url(#dark-suit-grad)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M 52 62 L 26 65 L 12 86" stroke="url(#yellow-hero-grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M 22 74 L 8 88 L 4 84 Z" fill="#0f172a" stroke="#facc15" stroke-width="1.5"/>
 
-            <path d="M 48 42 L 28 48 L 12 50" stroke="#ef4444" stroke-width="9" stroke-linecap="round" fill="none"/>
-            <path d="M 48 42 L 28 48 L 12 50" stroke="#f87171" stroke-width="5.5" stroke-linecap="round" fill="none"/>
-            <path d="M 16 50 L 4 52 M 4 52 L 0 48 M 4 52 L 1 54 M 4 52 L 3 57" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round"/>
+            <!-- 膝プロテクター -->
+            <polygon points="104,74 112,80 106,84 98,78" fill="url(#yellow-hero-grad)" stroke="#0f172a" stroke-width="1.5"/>
+            <polygon points="26,60 32,68 24,72 18,64" fill="url(#yellow-hero-grad)" stroke="#0f172a" stroke-width="1.5"/>
 
-            <!-- 頭部 -->
-            <circle cx="52" cy="24" r="12" fill="#ef4444" stroke="#b91c1c" stroke-width="1"/>
-            <path d="M 41 23 Q 52 16 63 23 Q 52 30 41 23 Z" fill="#f8fafc" stroke="#1e293b" stroke-width="2"/>
-            <circle cx="47" cy="22.5" r="2" fill="#0284c7"/>
-            <circle cx="57" cy="22.5" r="2" fill="#0284c7"/>
-            <path d="M 52 12 L 52 6 M 52 12 L 47 8 M 52 12 L 57 8" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+            <!-- 胴体 (ダークスーツ ＋ サンダーアーマー) -->
+            <path d="M 45 36 L 68 36 L 63 65 L 47 65 Z" fill="url(#dark-suit-grad)" stroke="#0f172a" stroke-width="2"/>
+            <path d="M 43 36 L 56.5 54 L 70 36 L 63 36 L 56.5 45 L 50 36 Z" fill="url(#yellow-hero-grad)" stroke="#0f172a" stroke-width="1.5"/>
+            <!-- 中央エネルギーコア（発光ブルー） -->
+            <polygon points="56.5,40 60,45 56.5,50 53,45" fill="#38bdf8" stroke="#ffffff" stroke-width="1" filter="url(#glow)"/>
+            <!-- ベルト -->
+            <rect x="46" y="60" width="18" height="6" rx="2" fill="url(#gold-armor-grad)" stroke="#0f172a" stroke-width="1.5"/>
+            <polygon points="56.5,59 59.5,63 56.5,67 53.5,63" fill="#38bdf8"/>
+
+            <!-- 左腕（力強く前方へ構える） -->
+            <path d="M 48 40 L 26 46 L 10 46" stroke="url(#dark-suit-grad)" stroke-width="9" stroke-linecap="round" fill="none"/>
+            <path d="M 48 40 L 26 46 L 10 46" stroke="url(#yellow-hero-grad)" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <path d="M 14 46 L 4 48 L 2 42 L 10 40 Z" fill="url(#gold-armor-grad)" stroke="#0f172a" stroke-width="1.5"/>
+            <path d="M 4 40 L -2 36 M 2 48 L -4 52" stroke="#fef08a" stroke-width="2" stroke-linecap="round"/>
+
+            <!-- 右腕（決めの構え） -->
+            <path d="M 64 38 L 94 22 L 110 12" stroke="url(#dark-suit-grad)" stroke-width="9" stroke-linecap="round" fill="none"/>
+            <path d="M 64 38 L 94 22 L 110 12" stroke="url(#yellow-hero-grad)" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <path d="M 104 15 L 116 8 L 120 14 L 108 20 Z" fill="url(#gold-armor-grad)" stroke="#0f172a" stroke-width="1.5"/>
+            <path d="M 116 8 L 124 4 M 118 12 L 126 10" stroke="#fef08a" stroke-width="2" stroke-linecap="round"/>
+
+            <!-- 肩プロテクター -->
+            <path d="M 42 35 L 48 28 L 54 36 Z" fill="url(#yellow-hero-grad)" stroke="#0f172a" stroke-width="1.5"/>
+            <path d="M 60 36 L 68 28 L 72 35 Z" fill="url(#yellow-hero-grad)" stroke="#0f172a" stroke-width="1.5"/>
+
+            <!-- 頭部 (シャープヘルメット & サイバーバイザー & サンダークラウン) -->
+            <circle cx="53" cy="22" r="13" fill="url(#yellow-hero-grad)" stroke="#ca8a04" stroke-width="1.5"/>
+            <path d="M 41 21 Q 53 14 65 21 Q 53 28 41 21 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+            <path d="M 44 20 Q 53 16 62 20" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" filter="url(#glow)"/>
+            <circle cx="47" cy="20.5" r="1.5" fill="#ffffff"/>
+            <circle cx="59" cy="20.5" r="1.5" fill="#ffffff"/>
+
+            <!-- 頭部クラウンアンテナ -->
+            <path d="M 53 10 L 53 2 M 53 10 L 44 4 M 53 10 L 62 4" stroke="url(#gold-armor-grad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 53 10 L 53 2 M 53 10 L 44 4 M 53 10 L 62 4" stroke="#fef08a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polygon points="53,10 56,15 50,15" fill="#38bdf8"/>
           </svg>
         </div>
 
@@ -199,7 +242,7 @@
             <i class="fa-solid fa-play text-xl animate-pulse"></i>
             <span>スタート</span>
           </button>
-          <button onclick="openZukanModal()" class="bg-gradient-to-r from-sky-400 to-blue-600 hover:from-sky-500 hover:to-blue-700 text-white font-black text-xl sm:text-2xl py-2.5 sm:py-3.5 px-4 rounded-3xl shadow-[0_5px_0_#1e40af] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 font-fredoka tracking-wider border-2 border-white whitespace-nowrap">
+          <button onclick="openZukanModal()" class="bg-gradient-to-r from-sky-400 to-blue-600 hover:from-sky-500 hover:to-blue-700 text-white font-black text-xl sm:text-2xl py-2.5 sm:py-3.5 px-4 rounded-3xl shadow-[0_3px_0_#1e40af] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 font-fredoka tracking-wider border-2 border-white whitespace-nowrap">
             <i class="fa-solid fa-book-open text-xl"></i>
             <span>ずかん</span>
           </button>
@@ -508,7 +551,6 @@
     // ==========================================
     // 0. このChromebook・ブラウザ内への自動セーブ＆ロード
     // ==========================================
-    // localStorageを使うため、アカウント登録やFirebaseの設定は不要。
     const SAVE_DATA_KEY = 'math-hero-app-progress-v1';
 
     function saveGameProgress() {
@@ -1311,7 +1353,7 @@
       }
     }
 
-    // 10を作るカプセル状囲み描画 (数字を完全に外枠の内側に収めるよう半径を自動マージン計算)
+    // 10を作るカプセル状囲み描画
     function updateTenLoop() {
       const num1El = document.getElementById('num1');
       const cherryLeftEl = document.getElementById('cherry-left');
@@ -1327,8 +1369,6 @@
       const cx2 = cRect.left + cRect.width / 2 - bRect.left;
       const cy2 = cRect.top + cRect.height / 2 - bRect.top;
 
-      // 「たされる数」と「さくらんぼ」の双方の大きさ（幅・高さ）を計測し、
-      // 大きな数字も切れずに完全に内側に収まる十分なマージン半径 r を動的計算
       const num1Size = Math.max(nRect.width, nRect.height);
       const cherrySize = Math.max(cRect.width, cRect.height);
       const r = Math.max(num1Size / 2 + 14, cherrySize / 2 + 8);
@@ -1350,7 +1390,6 @@
       const p4x = cx1 - nx * r;
       const p4y = cy1 - ny * r;
 
-      // 円弧の描画方向フラグ(sweep-flag)を 0 (反時計回り) に変更し、両端の半円が外向きに膨らむカプセル形状に修正
       const pathD = `M ${p1x} ${p1y} L ${p2x} ${p2y} A ${r} ${r} 0 0 0 ${p3x} ${p3y} L ${p4x} ${p4y} A ${r} ${r} 0 0 0 ${p1x} ${p1y} Z`;
 
       const svgPath = document.getElementById('ten-loop-path');
@@ -1358,7 +1397,6 @@
 
       svgPath.setAttribute('d', pathD);
 
-      // 「10」の表示位置: X座標はたされる数(num1)の中心、Y座標はさくらんぼの中心（カプセルの左下外側）
       svgText.setAttribute('x', cx1);
       svgText.setAttribute('y', cy2);
 
@@ -1395,7 +1433,7 @@
 
         problemIndex++;
         updateHeaderUI();
-        saveGameProgress(); // 進行状況を自動セーブ
+        saveGameProgress();
 
         setTimeout(() => {
           if (problemIndex >= 3) {
@@ -1407,7 +1445,7 @@
         }, 1200);
 
       } else {
-        // 誤答: 数字は表示せずシェイクのみ
+        // 誤答
         playSound('wrong');
         const slot = document.getElementById('answer-slot');
         slot.classList.add('animate-shake');
@@ -1459,7 +1497,6 @@
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 線を描画
       if (connectedDotCount > 1) {
         ctx.beginPath();
         ctx.strokeStyle = '#f43f5e';
@@ -1477,7 +1514,6 @@
         ctx.stroke();
       }
 
-      // ドット描画
       for (let i = 0; i < 100; i++) {
         const pt = dotPoints[i];
         const x = pt.x * canvas.width;
@@ -1509,7 +1545,6 @@
       const overlay = document.getElementById('hero-run-overlay');
       overlay.innerHTML = `
         <div class="flex flex-col items-center animate-hero-run relative">
-          <!-- 名前だけ表示する吹き出し（!! 付き） -->
           <div class="mb-2 bg-white text-gray-800 font-black text-xl sm:text-2xl px-5 py-2 rounded-2xl border-4 border-rose-500 shadow-2xl relative font-fredoka">
             ${hero.name}!!
             <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-rose-500"></div>
@@ -1520,7 +1555,7 @@
 
       overlay.classList.remove('opacity-0');
       updateHeroDock();
-      saveGameProgress(); // 新しいヒーロー獲得を即座にセーブ
+      saveGameProgress();
 
       confetti({
         particleCount: 100,
@@ -1539,16 +1574,15 @@
 
       if (connectedDotCount >= 100) {
         connectedDotCount = 0;
-        loadRandomMotif(); // モチーフをランダム切り替え
+        loadRandomMotif();
       }
 
-      // ボーナス判定 (50ptごと)
       if (totalScore >= nextBonusScoreThreshold) {
         nextBonusScoreThreshold += 50;
         saveGameProgress();
         startBonusStage();
       } else {
-        startStage(); // ステージ開始時に自動セーブ
+        startStage();
       }
     }
 
@@ -1560,17 +1594,14 @@
     let bonusTimerId = null;
     let bonusClearedCount = 0;
 
-    // ボーナスA変数
     let bonusTargetSum = 11;
     let remainingPairsA = [];
     let bonusSelectedNum1 = null;
 
-    // ボーナスB変数
     let bonusTargetSumB = 12;
     let remainingPairsB = [];
     let currentLeftNumB = null;
 
-    // シャッフル用プール (10〜18)
     let bonusTargetPool = [10,11,12,13,14,15,16,17,18];
 
     function getNextBonusTarget() {
@@ -1605,7 +1636,6 @@
         nextBonusProblemB();
       }
 
-      // 交互切り替え
       isBonusModeA = !isBonusModeA;
 
       bonusTimerId = setInterval(() => {
@@ -1617,7 +1647,6 @@
       }, 1000);
     }
 
-    // ボーナスステージ A ロジック
     function initBonusCardsA() {
       const grid = document.getElementById('bonus-cards-grid');
       grid.innerHTML = '';
@@ -1665,14 +1694,12 @@
 
         const idx = remainingPairsA.findIndex(p => p.a === bonusSelectedNum1 && p.b === num2);
         if (idx !== -1) {
-          // 正解
           playSound('correct');
           remainingPairsA.splice(idx, 1);
           bonusClearedCount++;
           document.getElementById('bonus-score').innerText = bonusClearedCount;
           document.getElementById('bonus-pairs-left').innerText = remainingPairsA.length;
 
-          // でたしきに追加
           const list = document.getElementById('bonus-cleared-list');
           const div = document.createElement('div');
           div.className = "bg-white border border-pink-300 rounded-lg py-0.5 text-pink-600 animate-pop-in";
@@ -1686,14 +1713,12 @@
             setTimeout(resetSlotsA, 250);
           }
         } else {
-          // 失敗
           playSound('wrong');
           setTimeout(resetSlotsA, 350);
         }
       }
     }
 
-    // ボーナスステージ B ロジック
     function initBonusCardsB() {
       const grid = document.getElementById('bonus-b-cards-grid');
       grid.innerHTML = '';
@@ -1744,7 +1769,6 @@
       const expectedRight = bonusTargetSumB - currentLeftNumB;
 
       if (rightNum === expectedRight) {
-        // 正解
         playSound('correct');
         const idx = remainingPairsB.findIndex(p => p.a === currentLeftNumB);
         if (idx !== -1) remainingPairsB.splice(idx, 1);
@@ -1753,7 +1777,6 @@
         document.getElementById('bonus-score').innerText = bonusClearedCount;
         document.getElementById('bonus-b-pairs-left').innerText = remainingPairsB.length;
 
-        // でたしき追加
         const list = document.getElementById('bonus-b-cleared-list');
         const div = document.createElement('div');
         div.className = "bg-white border border-pink-300 rounded-lg py-0.5 text-pink-600 animate-pop-in";
@@ -1763,7 +1786,6 @@
 
         setTimeout(pickNextLeftNumB, 250);
       } else {
-        // 失敗
         playSound('wrong');
         setTimeout(() => {
           document.getElementById('bonus-b-slot-2').innerText = '?';
@@ -1775,7 +1797,6 @@
       clearInterval(bonusTimerId);
       document.getElementById('bonus-modal').classList.add('opacity-0', 'pointer-events-none');
 
-      // ボーナスで獲得した組数（ポイント）を点つなぎに反映
       if (bonusClearedCount > 0) {
         openDotModal(bonusClearedCount);
       } else {
@@ -1797,19 +1818,16 @@
         card.className = `bg-white rounded-2xl p-2 border-2 ${isUnlocked ? 'border-sky-400 shadow-md bg-gradient-to-b from-white to-sky-50/50' : 'border-gray-200 opacity-60'} flex flex-col items-center justify-between text-center relative overflow-hidden transition-all`;
         
         card.innerHTML = `
-          <!-- 枠内の左上に色名バッジ -->
           <div class="absolute top-1 left-1.5 bg-sky-100 text-sky-800 border border-sky-300 font-black text-[10px] px-1.5 py-0.2 rounded-md shadow-xs">
             ${hero.colorName}
           </div>
 
-          <!-- 解放済み（ステージ左下に登場したヒーロー）のゲットバッジ -->
           ${isUnlocked ? `
             <div class="absolute top-1 right-1.5 bg-amber-400 text-amber-950 font-black text-[9px] px-1.5 py-0.2 rounded-full shadow-xs flex items-center gap-0.5">
               <i class="fa-solid fa-star text-white"></i>ゲット!
             </div>
           ` : ''}
 
-          <!-- 名前表示（左下に現れたヒーローは名前プレートをハイライト表示） -->
           <div class="text-[11px] font-black ${isUnlocked ? 'text-sky-800 bg-sky-100 border border-sky-300 shadow-xs' : 'text-gray-400 bg-gray-100'} px-2 py-0.5 rounded-full mb-1 w-full truncate font-fredoka text-center mt-3">
             ${isUnlocked ? hero.name : '？？？？？'}
           </div>
@@ -1843,7 +1861,6 @@
       }
     }
 
-    // HTML属性イベント用にウィンドウオブジェクトへマッピング
     window.startGameFromTitle = startGameFromTitle;
     window.openZukanModal = openZukanModal;
     window.closeZukanModal = closeZukanModal;
@@ -1854,20 +1871,16 @@
     window.handleCherryDrop = (e, side) => { e.preventDefault(); processCherryDrop(draggedNumber, side); };
     window.handleDrop = (e) => { e.preventDefault(); processAnswerDrop(draggedNumber); };
 
-    // アプリ起動
     window.onload = function() {
-      // 長押し・右クリックによるコンテキストメニューの表示を防止
       document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
       }, false);
 
-      // タッチ失敗・キャンセル時にも確実に赤カード表示を消去
       window.addEventListener('touchcancel', cleanupTouchElement, false);
       window.addEventListener('touchend', function() {
         setTimeout(cleanupTouchElement, 100);
       }, false);
 
-      // ダブルタップによる画面拡大やコンテキスト処理を防止
       let lastTouchEnd = 0;
       document.addEventListener('touchend', function(e) {
         const now = Date.now();
@@ -1879,7 +1892,6 @@
 
       initApp();
 
-      // タブを閉じる・再読み込みする直前にも最新状態を保存
       window.addEventListener('pagehide', saveGameProgress);
       document.addEventListener('visibilitychange', function() {
         if (document.visibilityState === 'hidden') saveGameProgress();
