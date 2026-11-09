@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>計算ヒーロー04</title>
-  <meta property="og:title" content="計算ヒーロー04">
-    <meta property="og:description" content="【１年算数たし算】繰り上がりのあるたし算の練習アプリです。">
-    <meta property="og:type" content="website">
+  <title>計算ヒーロー - くりあがりのあるたしざん</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -386,7 +383,7 @@
 
       <!-- 下部解説バー ＆ ヒーロードック -->
       <div class="relative w-full z-10">
-        <div id="hero-dock" class="absolute -top-12 left-1 flex items-end gap-1.5 overflow-x-auto max-w-[80%] z-20 pointer-events-auto pb-0.5">
+        <div id="hero-dock" class="absolute bottom-full mb-1 left-1 flex flex-wrap gap-1 max-w-[85%] z-20 pointer-events-auto overflow-visible items-end">
           <!-- 獲得したヒーロー表示 -->
         </div>
 
@@ -562,10 +559,110 @@
   </div>
 
   <!-- JavaScript App Logic -->
-  <script type="module">
-    // 0. セーブ＆ロード処理
+  <script>
+    // 0. 基本データ・定数定義
     const SAVE_DATA_KEY = 'math-hero-app-progress-v1';
 
+    const HEROES_DATA = [
+      { id: 1, name: 'さくらレッド', color: '#ef4444', suit: '#f87171', colorName: 'レッド', poseName: '正義のキック' },
+      { id: 2, name: 'スカイブルー', color: '#0284c7', suit: '#38bdf8', colorName: 'ブルー', poseName: '疾風ブレイク' },
+      { id: 3, name: 'サンシャイン', color: '#eab308', suit: '#fde047', colorName: 'イエロー', poseName: '閃光パンチ' },
+      { id: 4, name: 'グリーンフォレスト', color: '#22c55e', suit: '#4ade80', colorName: 'グリーン', poseName: '自然のバリア' },
+      { id: 5, name: 'パープルナイト', color: '#a855f7', suit: '#c084fc', colorName: 'パープル', poseName: '幻影ステップ' },
+      { id: 6, name: 'オレンジフレア', color: '#f97316', suit: '#fb923c', colorName: 'オレンジ', poseName: '爆炎キャノン' },
+      { id: 7, name: 'ピンクサクラ', color: '#ec4899', suit: '#f472b6', colorName: 'ピンク', poseName: '華麗なる舞' },
+      { id: 8, name: 'シアンウェーブ', color: '#06b6d4', suit: '#22d3ee', colorName: 'シアン', poseName: '氷結スラッシュ' },
+      { id: 9, name: 'ライムスパーク', color: '#84cc16', suit: '#a3e635', colorName: 'ライム', poseName: '電光石火' },
+      { id: 10, name: 'アンバーボルト', color: '#d97706', suit: '#fbbf24', colorName: 'アンバー', poseName: '大地の大地雷' },
+      { id: 11, name: 'ローズウィング', color: '#f43f5e', suit: '#fb7185', colorName: 'ローズ', poseName: '鳳凰の翼' },
+      { id: 12, name: 'インディゴシャドー', color: '#6366f1', suit: '#818cf8', colorName: 'インディゴ', poseName: '影分身の術' },
+      { id: 13, name: 'エメラルドガーディアン', color: '#10b981', stroke: '#34d399', suit: '#34d399', colorName: 'エメラルド', poseName: '絶対防御' },
+      { id: 14, name: 'ルビーブレード', color: '#e11d48', suit: '#fda4af', colorName: 'ルビー', poseName: '一閃斬り' },
+      { id: 15, name: 'サファイアストーム', color: '#2563eb', suit: '#60a5fa', colorName: 'サファイア', poseName: '竜巻ストーム' },
+      { id: 16, name: 'トパーズシールド', color: '#ca8a04', suit: '#facc15', colorName: 'トパーズ', poseName: '金剛壁' },
+      { id: 17, name: 'クリスタルノヴァ', color: '#14b8a6', suit: '#2dd4bf', colorName: 'クリスタル', poseName: '星屑の光' },
+      { id: 18, name: 'マゼンタスター', color: '#d946ef', suit: '#e879f9', colorName: 'マゼンタ', poseName: '流星キック' },
+      { id: 19, name: 'コバルトゼロ', color: '#1d4ed8', suit: '#3b82f6', colorName: 'コバルト', poseName: '絶対零度' },
+      { id: 20, name: 'ゴールドマックス', color: '#ca8a04', suit: '#fef08a', colorName: 'ゴールド', poseName: '究極覚醒' }
+    ];
+
+    const MOTIFS = [
+      { 
+        name: 'ほし', 
+        fn: () => {
+          const keypoints = [];
+          for (let i = 0; i <= 10; i++) {
+            const angle = (i / 10) * Math.PI * 2 - Math.PI / 2;
+            const r = (i % 2 === 0) ? 0.38 : 0.16;
+            keypoints.push({ x: 0.5 + r * Math.cos(angle), y: 0.5 + r * Math.sin(angle) });
+          }
+          return interpolateKeypoints(keypoints);
+        }
+      },
+      { 
+        name: 'ロケット', 
+        fn: () => interpolateKeypoints([
+          {x:0.5, y:0.08}, {x:0.58, y:0.22}, {x:0.58, y:0.62}, {x:0.78, y:0.75}, 
+          {x:0.58, y:0.75}, {x:0.54, y:0.92}, {x:0.5, y:0.82}, {x:0.46, y:0.92}, 
+          {x:0.42, y:0.75}, {x:0.22, y:0.75}, {x:0.42, y:0.62}, {x:0.42, y:0.22}, {x:0.5, y:0.08}
+        ])
+      },
+      { 
+        name: 'ハート', 
+        fn: () => {
+          const pts = [];
+          for (let i = 0; i < 100; i++) {
+            const t = (i / 100) * Math.PI * 2;
+            const x = 16 * Math.pow(Math.sin(t), 3);
+            const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+            pts.push({ x: 0.5 + x / 38, y: 0.48 + y / 38 });
+          }
+          return pts;
+        }
+      }
+    ];
+
+    function interpolateKeypoints(keypoints, totalPoints = 100) {
+      const points = [];
+      const numSegments = keypoints.length - 1;
+      const ptsPerSegment = totalPoints / numSegments;
+      for (let i = 0; i < numSegments; i++) {
+        const p1 = keypoints[i];
+        const p2 = keypoints[i + 1];
+        const count = Math.round((i + 1) * ptsPerSegment) - Math.round(i * ptsPerSegment);
+        for (let j = 0; j < count; j++) {
+          const t = j / count;
+          points.push({
+            x: p1.x + (p2.x - p1.x) * t,
+            y: p1.y + (p2.y - p1.y) * t
+          });
+        }
+      }
+      while (points.length < totalPoints) {
+        points.push(keypoints[keypoints.length - 1]);
+      }
+      return points.slice(0, totalPoints);
+    }
+
+    // ゲーム変数
+    let unlockedHeroIds = [];
+    let stage = 1;
+    let problemIndex = 0;
+    let currentProblems = [];
+    let totalScore = 0;
+    let nextBonusScoreThreshold = 50;
+    let isHintUsedCurrentProblem = false;
+    let cherryLeftOpen = false;
+    let cherryRightOpen = false;
+    let isLocked = false;
+    let stagePointsGained = 0;
+    let draggedNumber = null;
+    let problemPool = [];
+    let currentMotifIndex = 0;
+    let dotPoints = [];
+    let connectedDotCount = 0;
+
+    // セーブ＆ロード関数
     function saveGameProgress() {
       try {
         const saveData = {
@@ -621,7 +718,7 @@
       }
     }
 
-    // 1. サウンドシステム (Web Audio API)
+    // サウンド再生システム
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
 
@@ -730,32 +827,6 @@
       }
     }
 
-    // 2. ヒーロー20種データ
-    const HEROES_DATA = [
-      { id: 1, name: 'さくらレッド', color: '#ef4444', suit: '#f87171', colorName: 'レッド', poseName: '正義のキック' },
-      { id: 2, name: 'スカイブルー', color: '#0284c7', suit: '#38bdf8', colorName: 'ブルー', poseName: '疾風ブレイク' },
-      { id: 3, name: 'サンシャイン', color: '#eab308', suit: '#fde047', colorName: 'イエロー', poseName: '閃光パンチ' },
-      { id: 4, name: 'グリーンフォレスト', color: '#22c55e', suit: '#4ade80', colorName: 'グリーン', poseName: '自然のバリア' },
-      { id: 5, name: 'パープルナイト', color: '#a855f7', suit: '#c084fc', colorName: 'パープル', poseName: '幻影ステップ' },
-      { id: 6, name: 'オレンジフレア', color: '#f97316', suit: '#fb923c', colorName: 'オレンジ', poseName: '爆炎キャノン' },
-      { id: 7, name: 'ピンクサクラ', color: '#ec4899', suit: '#f472b6', colorName: 'ピンク', poseName: '華麗なる舞' },
-      { id: 8, name: 'シアンウェーブ', color: '#06b6d4', suit: '#22d3ee', colorName: 'シアン', poseName: '氷結スラッシュ' },
-      { id: 9, name: 'ライムスパーク', color: '#84cc16', suit: '#a3e635', colorName: 'ライム', poseName: '電光石火' },
-      { id: 10, name: 'アンバーボルト', color: '#d97706', suit: '#fbbf24', colorName: 'アンバー', poseName: '大地の大地雷' },
-      { id: 11, name: 'ローズウィング', color: '#f43f5e', suit: '#fb7185', colorName: 'ローズ', poseName: '鳳凰の翼' },
-      { id: 12, name: 'インディゴシャドー', color: '#6366f1', suit: '#818cf8', colorName: 'インディゴ', poseName: '影分身の術' },
-      { id: 13, name: 'エメラルドガーディアン', color: '#10b981', suit: '#34d399', colorName: 'エメラルド', poseName: '絶対防御' },
-      { id: 14, name: 'ルビーブレード', color: '#e11d48', suit: '#fda4af', colorName: 'ルビー', poseName: '一閃斬り' },
-      { id: 15, name: 'サファイアストーム', color: '#2563eb', suit: '#60a5fa', colorName: 'サファイア', poseName: '竜巻ストーム' },
-      { id: 16, name: 'トパーズシールド', color: '#ca8a04', suit: '#facc15', colorName: 'トパーズ', poseName: '金剛壁' },
-      { id: 17, name: 'クリスタルノヴァ', color: '#14b8a6', suit: '#2dd4bf', colorName: 'クリスタル', poseName: '星屑の光' },
-      { id: 18, name: 'マゼンタスター', color: '#d946ef', suit: '#e879f9', colorName: 'マゼンタ', poseName: '流星キック' },
-      { id: 19, name: 'コバルトゼロ', color: '#1d4ed8', suit: '#3b82f6', colorName: 'コバルト', poseName: '絶対零度' },
-      { id: 20, name: 'ゴールドマックス', color: '#ca8a04', suit: '#fef08a', colorName: 'ゴールド', poseName: '究極覚醒' }
-    ];
-
-    let unlockedHeroIds = [];
-
     function createHeroSVG(hero, size = 50) {
       if (!hero) return '';
       const c = hero.color || '#ef4444';
@@ -779,6 +850,68 @@
       `;
     }
 
+    function triggerHeroRunIn() {
+      playSound('hero-appear');
+
+      let newHeroId = unlockedHeroIds.length + 1;
+      if (newHeroId > 20) newHeroId = (unlockedHeroIds.length % 20) + 1;
+      if (!unlockedHeroIds.includes(newHeroId)) {
+        unlockedHeroIds.push(newHeroId);
+      }
+
+      const hero = HEROES_DATA.find(h => h.id === newHeroId) || HEROES_DATA[0];
+
+      const overlay = document.getElementById('hero-run-overlay');
+      overlay.innerHTML = `
+        <div class="flex flex-col items-center animate-hero-run relative bg-white/95 p-5 rounded-3xl border-4 border-rose-400 shadow-2xl">
+          <div class="mb-2 bg-rose-50 text-rose-600 font-black text-xl sm:text-2xl px-5 py-2 rounded-2xl border-2 border-rose-400 shadow-md relative font-fredoka">
+            🎉 あたらしいヒーロー！ ${hero.name}!! 🎉
+          </div>
+          ${createHeroSVG(hero, 110)}
+          <button onclick="dismissHeroOverlayAndFinish()" class="mt-4 bg-gradient-to-r from-amber-400 via-rose-500 to-pink-500 hover:from-amber-500 hover:to-pink-600 text-white font-black text-lg px-6 py-2.5 rounded-2xl shadow-[0_4px_0_#be123c] active:translate-y-1 active:shadow-none transition-all font-fredoka border-2 border-white cursor-pointer">
+            つぎへすすむ <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+      `;
+
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      updateHeroDock();
+      saveGameProgress();
+
+      confetti({
+        particleCount: 100,
+        spread: 100,
+        origin: { y: 0.5 }
+      });
+    }
+
+    function finishDotStage() {
+      playSound('tap');
+      document.getElementById('dot-modal').classList.add('opacity-0', 'pointer-events-none');
+
+      if (connectedDotCount >= 100) {
+        connectedDotCount = 0;
+        loadRandomMotif();
+      }
+
+      if (totalScore >= nextBonusScoreThreshold) {
+        nextBonusScoreThreshold += 50;
+        saveGameProgress();
+        startBonusStage();
+      } else {
+        startStage();
+      }
+    }
+
+    function dismissHeroOverlayAndFinish() {
+      playSound('tap');
+      const overlay = document.getElementById('hero-run-overlay');
+      if (overlay) {
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+      }
+      finishDotStage();
+    }
+
     function updateHeroDock() {
       const dock = document.getElementById('hero-dock');
       if (!dock) return;
@@ -789,76 +922,77 @@
         if (hero) {
           const wrapper = document.createElement('div');
           wrapper.className = "flex-shrink-0 flex flex-col items-center hover:scale-110 transition-transform cursor-pointer";
-          wrapper.innerHTML = createHeroSVG(hero, 46);
+          wrapper.innerHTML = createHeroSVG(hero, 34);
           dock.appendChild(wrapper);
         }
       });
     }
 
-    // 3. 点つなぎ 形状ジェネレーター
-    function interpolateKeypoints(keypoints, totalPoints = 100) {
-      const points = [];
-      const numSegments = keypoints.length - 1;
-      const ptsPerSegment = totalPoints / numSegments;
-
-      for (let i = 0; i < numSegments; i++) {
-        const p1 = keypoints[i];
-        const p2 = keypoints[i + 1];
-        const count = Math.round((i + 1) * ptsPerSegment) - Math.round(i * ptsPerSegment);
-
-        for (let j = 0; j < count; j++) {
-          const t = j / count;
-          points.push({
-            x: p1.x + (p2.x - p1.x) * t,
-            y: p1.y + (p2.y - p1.y) * t
-          });
-        }
+    function openZukanModal() {
+      playSound('tap');
+      renderZukanGrid();
+      const modal = document.getElementById('zukan-modal');
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
       }
-      while (points.length < totalPoints) {
-        points.push(keypoints[keypoints.length - 1]);
-      }
-      return points.slice(0, totalPoints);
     }
 
-    const MOTIFS = [
-      { 
-        name: 'ロケット', 
-        fn: () => interpolateKeypoints([
-          {x:0.5, y:0.08}, {x:0.58, y:0.22}, {x:0.58, y:0.62}, {x:0.78, y:0.75}, 
-          {x:0.58, y:0.75}, {x:0.54, y:0.92}, {x:0.5, y:0.82}, {x:0.46, y:0.92}, 
-          {x:0.42, y:0.75}, {x:0.22, y:0.75}, {x:0.42, y:0.62}, {x:0.42, y:0.22}, {x:0.5, y:0.08}
-        ])
-      },
-      { 
-        name: 'ハート', 
-        fn: () => {
-          const pts = [];
-          for (let i = 0; i < 100; i++) {
-            const t = (i / 100) * Math.PI * 2;
-            const x = 16 * Math.pow(Math.sin(t), 3);
-            const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-            pts.push({ x: 0.5 + x / 38, y: 0.48 + y / 38 });
-          }
-          return pts;
-        }
-      },
-      { 
-        name: 'ほし', 
-        fn: () => {
-          const keypoints = [];
-          for (let i = 0; i <= 10; i++) {
-            const angle = (i / 10) * Math.PI * 2 - Math.PI / 2;
-            const r = (i % 2 === 0) ? 0.38 : 0.16;
-            keypoints.push({ x: 0.5 + r * Math.cos(angle), y: 0.5 + r * Math.sin(angle) });
-          }
-          return interpolateKeypoints(keypoints);
-        }
+    function closeZukanModal() {
+      playSound('tap');
+      const modal = document.getElementById('zukan-modal');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
       }
-    ];
+    }
 
-    let currentMotifIndex = 0;
-    let dotPoints = [];
-    let connectedDotCount = 0;
+    function renderZukanGrid() {
+      const grid = document.getElementById('zukan-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      const countElem = document.getElementById('zukan-count');
+      if (countElem) countElem.innerText = unlockedHeroIds.length;
+
+      HEROES_DATA.forEach(hero => {
+        const isUnlocked = unlockedHeroIds.includes(hero.id);
+        const card = document.createElement('div');
+        
+        card.className = `relative flex flex-col items-center justify-between p-1 rounded-xl border transition-all h-full overflow-hidden ${
+          isUnlocked 
+            ? 'bg-gradient-to-b from-white to-pink-50 border-pink-300 shadow-sm' 
+            : 'bg-gray-100 border-gray-300 opacity-60'
+        }`;
+
+        card.innerHTML = `
+          <div class="absolute top-0.5 left-0.5 bg-gray-800 text-white font-extrabold text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded-full z-10 shadow">
+            ${hero.colorName}
+          </div>
+          ${isUnlocked ? '<div class="absolute top-0.5 right-0.5 bg-amber-400 text-amber-950 font-black text-[8px] sm:text-[9px] px-1 py-0.2 rounded-full z-10 shadow">ゲット!</div>' : ''}
+          <div class="flex-1 my-0.5 flex items-center justify-center">
+            ${isUnlocked ? createHeroSVG(hero, 34) : '<div class="w-8 h-10 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-sm font-bold"><i class="fa-solid fa-question"></i></div>'}
+          </div>
+          <div class="text-center w-full leading-tight">
+            <div class="text-[9px] sm:text-[11px] font-black ${isUnlocked ? 'text-gray-800' : 'text-gray-400'} font-fredoka truncate">
+              ${isUnlocked ? hero.name : '？？？？？'}
+            </div>
+            <div class="text-[8px] sm:text-[9px] font-bold ${isUnlocked ? 'text-pink-600' : 'text-gray-400'} truncate">
+              ${hero.poseName}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function startGameFromTitle() {
+      playSound('tap');
+      const titleScreen = document.getElementById('title-screen');
+      if (titleScreen) {
+        titleScreen.classList.add('transition-opacity', 'duration-500', 'opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          titleScreen.style.display = 'none';
+        }, 500);
+      }
+    }
 
     function loadRandomMotif() {
       const randomIndex = Math.floor(Math.random() * MOTIFS.length);
@@ -867,21 +1001,6 @@
       if (elem) elem.innerText = MOTIFS[currentMotifIndex].name;
       dotPoints = MOTIFS[currentMotifIndex].fn();
     }
-
-    // 4. ゲーム状態＆制御
-    let stage = 1;
-    let problemIndex = 0;
-    let currentProblems = [];
-    let totalScore = 0;
-    let nextBonusScoreThreshold = 50;
-    let isHintUsedCurrentProblem = false;
-    let cherryLeftOpen = false;
-    let cherryRightOpen = false;
-    let isLocked = false;
-    let stagePointsGained = 0;
-    let draggedNumber = null;
-
-    let problemPool = [];
 
     function initProblemPool() {
       const pool = [];
@@ -911,40 +1030,6 @@
       return probs;
     }
 
-    function initApp() {
-      const hasSavedProgress = loadGameProgress();
-      if (!hasSavedProgress || !dotPoints.length) {
-        loadRandomMotif();
-      } else {
-        const elem = document.getElementById('motif-name');
-        if (elem) elem.innerText = MOTIFS[currentMotifIndex].name;
-      }
-      renderNumberCards();
-
-      if (hasSavedProgress && currentProblems.length === 3) {
-        if (problemIndex >= 3) {
-          stage++;
-          updateHeaderUI();
-          openDotModal(stagePointsGained);
-        } else {
-          renderProblem();
-        }
-      } else {
-        startStage();
-      }
-    }
-
-    function startGameFromTitle() {
-      playSound('tap');
-      const titleScreen = document.getElementById('title-screen');
-      if (titleScreen) {
-        titleScreen.classList.add('transition-opacity', 'duration-500', 'opacity-0', 'pointer-events-none');
-        setTimeout(() => {
-          titleScreen.style.display = 'none';
-        }, 500);
-      }
-    }
-
     function startStage() {
       currentProblems = generateProblems();
       problemIndex = 0;
@@ -961,6 +1046,7 @@
       cherryRightOpen = false;
 
       const p = currentProblems[problemIndex];
+      if (!p) return;
       document.getElementById('num1').innerText = p.num1;
       document.getElementById('num2').innerText = p.num2;
       document.getElementById('answer-text').innerText = '?';
@@ -989,20 +1075,24 @@
 
       for (let i = 1; i <= 3; i++) {
         const star = document.getElementById(`star-${i}`);
-        if (i <= problemIndex) {
-          star.className = "fa-solid fa-star text-amber-400 text-base sm:text-xl transition-all scale-110";
-        } else {
-          star.className = "fa-solid fa-star text-pink-200 text-base sm:text-xl transition-all";
+        if (star) {
+          if (i <= problemIndex) {
+            star.className = "fa-solid fa-star text-amber-400 text-base sm:text-xl transition-all scale-110";
+          } else {
+            star.className = "fa-solid fa-star text-pink-200 text-base sm:text-xl transition-all";
+          }
         }
       }
 
       const progressToBonus = (totalScore % 50);
       const pct = (progressToBonus / 50) * 100;
-      document.getElementById('bonus-bar').style.width = `${pct}%`;
+      const bonusBar = document.getElementById('bonus-bar');
+      if (bonusBar) bonusBar.style.width = `${pct}%`;
     }
 
     function renderNumberCards() {
       const grid = document.getElementById('cards-grid');
+      if (!grid) return;
       grid.innerHTML = '';
       for (let i = 0; i <= 19; i++) {
         const btn = document.createElement('div');
@@ -1020,7 +1110,6 @@
       }
     }
 
-    // 5. ドラッグ＆スワイプ制御
     function handleDragStart(e, num) {
       draggedNumber = num;
       e.dataTransfer.setData('text/plain', num.toString());
@@ -1232,13 +1321,12 @@
       }
     }
 
-    // 6. 点つなぎモーダル制御
     function openDotModal(ptsToAdd) {
       const modal = document.getElementById('dot-modal');
       modal.classList.remove('opacity-0', 'pointer-events-none');
 
       document.getElementById('close-dot-btn').disabled = true;
-      document.getElementById('hero-run-overlay').classList.add('opacity-0');
+      document.getElementById('hero-run-overlay').classList.add('opacity-0', 'pointer-events-none');
 
       const startCount = connectedDotCount;
       const animDotTarget = Math.min(100, connectedDotCount + ptsToAdd);
@@ -1306,339 +1394,26 @@
       }
     }
 
-    function triggerHeroRunIn() {
-      playSound('hero-appear');
-
-      let newHeroId = unlockedHeroIds.length + 1;
-      if (newHeroId > 20) newHeroId = ((unlockedHeroIds.length) % 20) + 1;
-      if (!unlockedHeroIds.includes(newHeroId)) {
-        unlockedHeroIds.push(newHeroId);
-      }
-
-      const hero = HEROES_DATA.find(h => h.id === newHeroId) || HEROES_DATA[0];
-
-      const overlay = document.getElementById('hero-run-overlay');
-      overlay.innerHTML = `
-        <div class="flex flex-col items-center animate-pop-in relative bg-white/95 border-4 border-rose-400 p-5 rounded-3xl shadow-2xl max-w-sm text-center">
-          <div class="text-xl sm:text-2xl font-black text-rose-600 font-fredoka mb-1 animate-bounce">
-            🎉 あたらしいヒーローゲット！ 🎉
-          </div>
-          <div class="my-2 transform scale-110">
-            ${createHeroSVG(hero, 90)}
-          </div>
-          <div class="text-lg sm:text-xl font-black text-amber-600 font-fredoka mb-4">
-            ${hero.name}
-          </div>
-          <button onclick="dismissHeroOverlayAndFinish()" class="bg-gradient-to-r from-amber-400 to-rose-500 hover:from-amber-500 hover:to-rose-600 text-white font-black text-base sm:text-xl px-8 py-2.5 rounded-2xl shadow-[0_4px_0_#be123c] active:translate-y-1 active:shadow-none transition-all font-fredoka border-2 border-white">
-            つぎへすすむ <i class="fa-solid fa-arrow-right ml-1"></i>
-          </button>
-        </div>
-      `;
-
-      overlay.classList.remove('opacity-0', 'pointer-events-none');
-      overlay.classList.add('pointer-events-auto');
-      updateHeroDock();
-      saveGameProgress();
-
-      confetti({
-        particleCount: 100,
-        spread: 100,
-        origin: { y: 0.5 }
-      });
-    }
-
-    function dismissHeroOverlayAndFinish() {
-      playSound('tap');
-      const overlay = document.getElementById('hero-run-overlay');
-      overlay.classList.add('opacity-0', 'pointer-events-none');
-      overlay.classList.remove('pointer-events-auto');
-      finishDotStage();
-    }
-
-    function finishDotStage() {
-      playSound('tap');
-      document.getElementById('dot-modal').classList.add('opacity-0', 'pointer-events-none');
-
-      if (connectedDotCount >= 100) {
-        connectedDotCount = 0;
+    function initApp() {
+      const hasSavedProgress = loadGameProgress();
+      if (!hasSavedProgress || !dotPoints.length) {
         loadRandomMotif();
-      }
-
-      if (totalScore >= nextBonusScoreThreshold) {
-        nextBonusScoreThreshold += 50;
-        saveGameProgress();
-        startBonusStage();
       } else {
-        startStage();
+        const elem = document.getElementById('motif-name');
+        if (elem) elem.innerText = MOTIFS[currentMotifIndex].name;
       }
-    }
+      renderNumberCards();
 
-    // 7. ボーナスステージ
-    let isBonusModeA = false;
-    let bonusTimeLeft = 60;
-    let bonusTimerId = null;
-    let bonusClearedCount = 0;
-    let bonusTargetSum = 11;
-    let remainingPairsA = [];
-    let bonusSelectedNum1 = null;
-    let bonusTargetSumB = 12;
-    let remainingPairsB = [];
-    let currentLeftNumB = null;
-    let bonusTargetPool = [10,11,12,13,14,15,16,17,18];
-
-    function getNextBonusTarget() {
-      if (bonusTargetPool.length === 0) {
-        bonusTargetPool = [10,11,12,13,14,15,16,17,18];
-      }
-      const idx = Math.floor(Math.random() * bonusTargetPool.length);
-      return bonusTargetPool.splice(idx, 1)[0];
-    }
-
-    function startBonusStage() {
-      bonusTimeLeft = 60;
-      bonusClearedCount = 0;
-      document.getElementById('bonus-score').innerText = bonusClearedCount;
-      document.getElementById('bonus-timer').innerText = bonusTimeLeft;
-
-      const modal = document.getElementById('bonus-modal');
-      modal.classList.remove('opacity-0', 'pointer-events-none');
-
-      const areaA = document.getElementById('bonus-area-a');
-      const areaB = document.getElementById('bonus-area-b');
-
-      if (isBonusModeA) {
-        areaA.classList.remove('hidden');
-        areaB.classList.add('hidden');
-        initBonusCardsA();
-        nextBonusProblemA();
-      } else {
-        areaA.classList.add('hidden');
-        areaB.classList.remove('hidden');
-        initBonusCardsB();
-        nextBonusProblemB();
-      }
-
-      isBonusModeA = !isBonusModeA;
-
-      bonusTimerId = setInterval(() => {
-        bonusTimeLeft--;
-        document.getElementById('bonus-timer').innerText = bonusTimeLeft;
-        if (bonusTimeLeft <= 0) {
-          endBonusStage();
-        }
-      }, 1000);
-    }
-
-    function initBonusCardsA() {
-      const grid = document.getElementById('bonus-cards-grid');
-      grid.innerHTML = '';
-      for (let i = 1; i <= 9; i++) {
-        const btn = document.createElement('button');
-        btn.className = "bg-white border-2 border-pink-300 hover:border-pink-500 rounded-xl py-3 font-black text-xl text-gray-800 shadow active:translate-y-0.5 font-fredoka";
-        btn.innerText = i;
-        btn.onclick = () => handleBonusCardTapA(i);
-        grid.appendChild(btn);
-      }
-    }
-
-    function nextBonusProblemA() {
-      bonusTargetSum = getNextBonusTarget();
-      playSound('new-problem');
-
-      remainingPairsA = [];
-      for (let a = 1; a <= 9; a++) {
-        const b = bonusTargetSum - a;
-        if (b >= 1 && b <= 9) {
-          remainingPairsA.push({ a, b });
-        }
-      }
-
-      document.getElementById('bonus-target').innerText = bonusTargetSum;
-      document.getElementById('bonus-pairs-left').innerText = remainingPairsA.length;
-      document.getElementById('bonus-cleared-list').innerHTML = '';
-      resetSlotsA();
-    }
-
-    function resetSlotsA() {
-      bonusSelectedNum1 = null;
-      document.getElementById('bonus-slot-1').innerText = '?';
-      document.getElementById('bonus-slot-2').innerText = '?';
-    }
-
-    function handleBonusCardTapA(num) {
-      playSound('tap');
-      if (bonusSelectedNum1 === null) {
-        bonusSelectedNum1 = num;
-        document.getElementById('bonus-slot-1').innerText = num;
-      } else {
-        const num2 = num;
-        document.getElementById('bonus-slot-2').innerText = num2;
-
-        const idx = remainingPairsA.findIndex(p => p.a === bonusSelectedNum1 && p.b === num2);
-        if (idx !== -1) {
-          playSound('correct');
-          remainingPairsA.splice(idx, 1);
-          bonusClearedCount++;
-          document.getElementById('bonus-score').innerText = bonusClearedCount;
-          document.getElementById('bonus-pairs-left').innerText = remainingPairsA.length;
-
-          const list = document.getElementById('bonus-cleared-list');
-          const div = document.createElement('div');
-          div.className = "bg-white border border-pink-300 rounded-lg py-0.5 text-pink-600 animate-pop-in";
-          div.innerText = `${bonusSelectedNum1} + ${num2}`;
-          list.appendChild(div);
-          list.scrollTop = list.scrollHeight;
-
-          if (remainingPairsA.length === 0) {
-            setTimeout(nextBonusProblemA, 400);
-          } else {
-            setTimeout(resetSlotsA, 250);
-          }
+      if (hasSavedProgress && currentProblems.length === 3) {
+        if (problemIndex >= 3) {
+          stage++;
+          updateHeaderUI();
+          openDotModal(stagePointsGained);
         } else {
-          playSound('wrong');
-          setTimeout(resetSlotsA, 350);
+          renderProblem();
         }
-      }
-    }
-
-    function initBonusCardsB() {
-      const grid = document.getElementById('bonus-b-cards-grid');
-      grid.innerHTML = '';
-      for (let i = 1; i <= 9; i++) {
-        const btn = document.createElement('button');
-        btn.className = "bg-white border-2 border-pink-300 hover:border-pink-500 rounded-xl py-3 font-black text-xl text-gray-800 shadow active:translate-y-0.5 font-fredoka";
-        btn.innerText = i;
-        btn.onclick = () => handleBonusCardTapB(i);
-        grid.appendChild(btn);
-      }
-    }
-
-    function nextBonusProblemB() {
-      bonusTargetSumB = getNextBonusTarget();
-      playSound('new-problem');
-
-      remainingPairsB = [];
-      for (let a = 1; a <= 9; a++) {
-        const b = bonusTargetSumB - a;
-        if (b >= 1 && b <= 9) {
-          remainingPairsB.push({ a, b });
-        }
-      }
-
-      document.getElementById('bonus-b-target').innerText = bonusTargetSumB;
-      document.getElementById('bonus-b-pairs-left').innerText = remainingPairsB.length;
-      document.getElementById('bonus-b-cleared-list').innerHTML = '';
-
-      pickNextLeftNumB();
-    }
-
-    function pickNextLeftNumB() {
-      if (remainingPairsB.length === 0) {
-        nextBonusProblemB();
-        return;
-      }
-      const randIdx = Math.floor(Math.random() * remainingPairsB.length);
-      currentLeftNumB = remainingPairsB[randIdx].a;
-
-      document.getElementById('bonus-b-slot-1').innerText = currentLeftNumB;
-      document.getElementById('bonus-b-slot-2').innerText = '?';
-    }
-
-    function handleBonusCardTapB(rightNum) {
-      playSound('tap');
-      document.getElementById('bonus-b-slot-2').innerText = rightNum;
-
-      const expectedRight = bonusTargetSumB - currentLeftNumB;
-
-      if (rightNum === expectedRight) {
-        playSound('correct');
-        const idx = remainingPairsB.findIndex(p => p.a === currentLeftNumB);
-        if (idx !== -1) remainingPairsB.splice(idx, 1);
-
-        bonusClearedCount++;
-        document.getElementById('bonus-score').innerText = bonusClearedCount;
-        document.getElementById('bonus-b-pairs-left').innerText = remainingPairsB.length;
-
-        const list = document.getElementById('bonus-b-cleared-list');
-        const div = document.createElement('div');
-        div.className = "bg-white border border-pink-300 rounded-lg py-0.5 text-pink-600 animate-pop-in";
-        div.innerText = `${currentLeftNumB} + ${rightNum}`;
-        list.appendChild(div);
-        list.scrollTop = list.scrollHeight;
-
-        setTimeout(pickNextLeftNumB, 250);
-      } else {
-        playSound('wrong');
-        setTimeout(() => {
-          document.getElementById('bonus-b-slot-2').innerText = '?';
-        }, 350);
-      }
-    }
-
-    function endBonusStage() {
-      clearInterval(bonusTimerId);
-      document.getElementById('bonus-modal').classList.add('opacity-0', 'pointer-events-none');
-
-      if (bonusClearedCount > 0) {
-        openDotModal(bonusClearedCount);
       } else {
         startStage();
-      }
-    }
-
-    // 8. ヒーローずかん モーダル制御 (5x4)
-    function renderZukanGrid() {
-      const grid = document.getElementById('zukan-grid');
-      if (!grid) return;
-      grid.innerHTML = '';
-      const countElem = document.getElementById('zukan-count');
-      if (countElem) countElem.innerText = unlockedHeroIds.length;
-
-      HEROES_DATA.forEach(hero => {
-        const isUnlocked = unlockedHeroIds.includes(hero.id);
-        const card = document.createElement('div');
-        
-        card.className = `relative flex flex-col items-center justify-between p-1 rounded-xl border transition-all h-full overflow-hidden ${
-          isUnlocked 
-            ? 'bg-gradient-to-b from-white to-pink-50 border-pink-300 shadow-sm' 
-            : 'bg-gray-100 border-gray-300 opacity-60'
-        }`;
-
-        card.innerHTML = `
-          <div class="absolute top-0.5 left-0.5 bg-gray-800 text-white font-extrabold text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded-full z-10 shadow">
-            ${hero.colorName}
-          </div>
-          ${isUnlocked ? '<div class="absolute top-0.5 right-0.5 bg-amber-400 text-amber-950 font-black text-[8px] sm:text-[9px] px-1 py-0.2 rounded-full z-10 shadow">ゲット!</div>' : ''}
-          <div class="flex-1 my-0.5 flex items-center justify-center">
-            ${isUnlocked ? createHeroSVG(hero, 34) : '<div class="w-8 h-10 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-sm font-bold"><i class="fa-solid fa-question"></i></div>'}
-          </div>
-          <div class="text-center w-full leading-tight">
-            <div class="text-[9px] sm:text-[11px] font-black ${isUnlocked ? 'text-gray-800' : 'text-gray-400'} font-fredoka truncate">
-              ${isUnlocked ? hero.name : '？？？？？'}
-            </div>
-            <div class="text-[8px] sm:text-[9px] font-bold ${isUnlocked ? 'text-pink-600' : 'text-gray-400'} truncate">
-              ${hero.poseName}
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function openZukanModal() {
-      playSound('tap');
-      renderZukanGrid();
-      const modal = document.getElementById('zukan-modal');
-      if (modal) {
-        modal.classList.remove('opacity-0', 'pointer-events-none');
-      }
-    }
-
-    function closeZukanModal() {
-      playSound('tap');
-      const modal = document.getElementById('zukan-modal');
-      if (modal) {
-        modal.classList.add('opacity-0', 'pointer-events-none');
       }
     }
 
