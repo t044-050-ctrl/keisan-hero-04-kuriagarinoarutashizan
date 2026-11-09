@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>計算ヒーロー04</title>
-  <meta property="og:title" content="計算ヒーロー04">
-    <meta property="og:description" content="【１年算数たし算】繰り上がりのあるたし算の練習アプリです。">
-    <meta property="og:type" content="website">
+  <title>計算ヒーロー - くりあがりのあるたしざん</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -443,8 +440,8 @@
         </button>
       </div>
 
-      <!-- ヒーローゲット演出オーバーレイ -->
-      <div id="hero-run-overlay" class="absolute inset-0 bg-white/95 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center gap-3 opacity-0 pointer-events-none transition-opacity duration-300 z-30 p-4">
+      <!-- ヒーローゲット演出オーバーレイ (点つなぎ画面の上に重ねて表示) -->
+      <div id="hero-run-overlay" class="absolute inset-0 bg-pink-950/50 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center gap-3 opacity-0 pointer-events-none transition-opacity duration-300 z-30 p-4">
       </div>
     </div>
   </div>
@@ -1319,15 +1316,24 @@
 
       const overlay = document.getElementById('hero-run-overlay');
       overlay.innerHTML = `
-        <div class="flex flex-col items-center animate-hero-run relative">
-          <div class="mb-2 bg-white text-gray-800 font-black text-xl sm:text-2xl px-5 py-2 rounded-2xl border-4 border-rose-500 shadow-2xl relative font-fredoka">
-            ${hero.name}!!
+        <div class="flex flex-col items-center animate-pop-in relative bg-white/95 border-4 border-rose-400 p-5 rounded-3xl shadow-2xl max-w-sm text-center">
+          <div class="text-xl sm:text-2xl font-black text-rose-600 font-fredoka mb-1 animate-bounce">
+            🎉 あたらしいヒーローゲット！ 🎉
           </div>
-          ${createHeroSVG(hero, 90)}
+          <div class="my-2 transform scale-110">
+            ${createHeroSVG(hero, 90)}
+          </div>
+          <div class="text-lg sm:text-xl font-black text-amber-600 font-fredoka mb-4">
+            ${hero.name}
+          </div>
+          <button onclick="dismissHeroOverlayAndFinish()" class="bg-gradient-to-r from-amber-400 to-rose-500 hover:from-amber-500 hover:to-rose-600 text-white font-black text-base sm:text-xl px-8 py-2.5 rounded-2xl shadow-[0_4px_0_#be123c] active:translate-y-1 active:shadow-none transition-all font-fredoka border-2 border-white">
+            つぎへすすむ <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
         </div>
       `;
 
-      overlay.classList.remove('opacity-0');
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('pointer-events-auto');
       updateHeroDock();
       saveGameProgress();
 
@@ -1336,10 +1342,14 @@
         spread: 100,
         origin: { y: 0.5 }
       });
+    }
 
-      setTimeout(() => {
-        document.getElementById('close-dot-btn').disabled = false;
-      }, 1200);
+    function dismissHeroOverlayAndFinish() {
+      playSound('tap');
+      const overlay = document.getElementById('hero-run-overlay');
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      overlay.classList.remove('pointer-events-auto');
+      finishDotStage();
     }
 
     function finishDotStage() {
@@ -1634,6 +1644,7 @@
     window.openZukanModal = openZukanModal;
     window.closeZukanModal = closeZukanModal;
     window.finishDotStage = finishDotStage;
+    window.dismissHeroOverlayAndFinish = dismissHeroOverlayAndFinish;
     window.toggleHint = toggleHint;
     window.handleDragOver = handleDragOver;
     window.handleDragLeave = handleDragLeave;
