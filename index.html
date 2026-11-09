@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>計算ヒーロー04</title>
-  <meta property="og:title" content="計算ヒーロー04">
-    <meta property="og:description" content="【１年算数たし算】繰り上がりのあるたし算の練習アプリです。">
-    <meta property="og:type" content="website">
+  <title>計算ヒーロー - くりあがりのあるたしざん</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -104,6 +101,7 @@
       box-shadow: 0 4px 6px rgba(225, 29, 72, 0.3), inset 0 -3px 4px rgba(159, 18, 57, 0.2);
     }
 
+    /* 正解時に外枠のみ緑色に変更 */
     .cherry-node.correct-cherry {
       border-color: #10b981 !important;
     }
@@ -159,7 +157,7 @@
           </p>
         </div>
 
-        <!-- 中央：エメラルドグリーンヒーロー（新アクションポーズ・かっこいいデザイン） -->
+        <!-- 中央：エメラルドグリーンヒーロー（新アクションポーズ・1.4倍拡大表示） -->
         <div class="my-auto flex items-center justify-center z-10">
           <svg class="w-56 h-40 sm:w-84 sm:h-56 drop-shadow-2xl" style="transform: scale(1.4);" viewBox="0 0 150 100">
             <defs>
@@ -171,10 +169,6 @@
               <linearGradient id="emerald-armor-grad" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="#34d399"/>
                 <stop offset="100%" stop-color="#047857"/>
-              </linearGradient>
-              <linearGradient id="neon-glow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#a7f3d0"/>
-                <stop offset="100%" stop-color="#10b981"/>
               </linearGradient>
               <linearGradient id="dark-suit-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#334155"/>
@@ -193,11 +187,11 @@
             <circle cx="125" cy="22" r="3" fill="#ffffff" filter="url(#green-glow)"/>
             <circle cx="138" cy="34" r="2" fill="#86efac"/>
 
-            <!-- 後ろマント（エメラルド〜濃緑のダイナミックになびく姿） -->
+            <!-- 後ろマント -->
             <path d="M 50 36 Q 20 20 5 35 Q 18 60 48 64 Z" fill="url(#emerald-armor-grad)" opacity="0.95" stroke="#064e3b" stroke-width="1.5"/>
             <path d="M 48 38 Q 28 48 10 58 Q 25 65 48 64 Z" fill="#047857" opacity="0.6"/>
 
-            <!-- 脚（力強く構えた低姿勢ヒーローポーズ） -->
+            <!-- 脚 -->
             <path d="M 64 62 L 115 78 L 135 82" stroke="url(#dark-suit-grad)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
             <path d="M 64 62 L 115 78 L 135 82" stroke="url(#green-hero-grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
             <path d="M 112 76 L 138 83 L 132 89 Z" fill="#0f172a" stroke="#22c55e" stroke-width="1.5"/>
@@ -219,40 +213,35 @@
             <rect x="47" y="61" width="20" height="6" rx="2" fill="url(#emerald-armor-grad)" stroke="#0f172a" stroke-width="1.5"/>
             <circle cx="57" cy="64" r="2.5" fill="#a7f3d0" filter="url(#green-glow)"/>
 
-            <!-- 左腕（前面へブレード攻撃） -->
+            <!-- 左腕 -->
             <path d="M 48 38 L 24 46 L 8 46" stroke="url(#dark-suit-grad)" stroke-width="9.5" stroke-linecap="round" fill="none"/>
             <path d="M 48 38 L 24 46 L 8 46" stroke="url(#green-hero-grad)" stroke-width="5.5" stroke-linecap="round" fill="none"/>
             <path d="M 12 46 L 2 48 L 0 40 L 8 38 Z" fill="url(#emerald-armor-grad)" stroke="#0f172a" stroke-width="1.5"/>
-            <!-- エナジーガード -->
-            <path d="M 2 38 L -6 32 M 0 48 L -8 54" stroke="#a7f3d0" stroke-width="2.5" stroke-linecap="round" filter="url(#green-glow)"/>
 
-            <!-- 右腕（力強く斜め上へエネルギーチャージポーズ） -->
+            <!-- 右腕 -->
             <path d="M 68 36 L 98 20 L 118 8" stroke="url(#dark-suit-grad)" stroke-width="10" stroke-linecap="round" fill="none"/>
             <path d="M 68 36 L 98 20 L 118 8" stroke="url(#green-hero-grad)" stroke-width="6" stroke-linecap="round" fill="none"/>
             <path d="M 112 11 L 126 4 L 130 11 L 118 18 Z" fill="url(#emerald-armor-grad)" stroke="#0f172a" stroke-width="1.5"/>
-            <!-- 閃光エフェクト -->
             <circle cx="126" cy="6" r="6" fill="#a7f3d0" opacity="0.9" filter="url(#green-glow)"/>
-            <path d="M 126 -2 L 126 14 M 118 6 L 134 6" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
 
             <!-- 肩アーマー -->
             <path d="M 42 34 L 48 26 L 55 35 Z" fill="url(#green-hero-grad)" stroke="#0f172a" stroke-width="1.5"/>
             <path d="M 62 35 L 70 26 L 76 34 Z" fill="url(#green-hero-grad)" stroke="#0f172a" stroke-width="1.5"/>
 
-            <!-- 頭部 (スタイリッシュヘルメット & エメラルドバイザー & ドラゴンツインアンテナ) -->
+            <!-- 頭部 -->
             <circle cx="56" cy="21" r="13" fill="url(#green-hero-grad)" stroke="#15803d" stroke-width="1.5"/>
             <path d="M 44 20 Q 56 12 68 20 Q 56 28 44 20 Z" fill="#0f172a" stroke="#a7f3d0" stroke-width="2"/>
             <path d="M 47 19 Q 56 15 65 19" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" filter="url(#green-glow)"/>
             <circle cx="50" cy="19.5" r="1.5" fill="#ffffff"/>
             <circle cx="62" cy="19.5" r="1.5" fill="#ffffff"/>
 
-            <!-- アンナクラウン（かっこいいシャープヘッド角） -->
             <path d="M 56 9 L 56 0 M 56 9 L 46 2 M 56 9 L 66 2" stroke="url(#emerald-armor-grad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M 56 9 L 56 0 M 56 9 L 46 2 M 56 9 L 66 2" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <polygon points="56,9 59,14 53,14" fill="#34d399"/>
           </svg>
         </div>
 
-        <!-- スタートボタン -->
+        <!-- スタートボタン ＆ ずかんボタン -->
         <div class="mb-2 z-10 w-full max-w-xs flex gap-2">
           <button onclick="startGameFromTitle()" class="flex-1 bg-gradient-to-r from-amber-400 via-rose-500 to-pink-500 hover:from-amber-500 hover:to-pink-600 text-white font-black text-xl sm:text-2xl py-2.5 sm:py-3.5 px-4 rounded-3xl shadow-[0_5px_0_#be123c] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 font-fredoka tracking-wider border-2 border-white">
             <i class="fa-solid fa-play text-xl animate-pulse"></i>
@@ -384,16 +373,16 @@
         </div>
       </div>
 
-      <!-- 下部解説バー ＆ ヒーロードック -->
+      <!-- 下部解説バー ＆ 3段表示のヒーロードック -->
       <div class="relative w-full z-10">
-        <div id="hero-dock" class="absolute bottom-full mb-1 left-1 flex flex-wrap gap-1 max-w-[85%] z-20 pointer-events-auto overflow-visible items-end">
-          <!-- 獲得したヒーロー表示 -->
+        <!-- ゲットしたヒーロー（3段折り返しで全表示） -->
+        <div id="hero-dock" class="absolute bottom-full mb-1 left-1 flex flex-wrap gap-1 max-h-24 overflow-y-auto items-end z-20 pointer-events-auto">
         </div>
 
         <div class="flex items-center justify-between bg-white/80 px-4 py-1.5 rounded-xl border border-pink-200 z-10">
           <div class="flex items-center gap-2 text-pink-600 font-bold text-xs sm:text-sm">
             <i class="fa-solid fa-comment-dots text-pink-400 text-base"></i>
-            <span id="msg-text">みぎのカードをすべらせて（スワイプして）ね！</span>
+            <span id="msg-text">みぎのすうじカードを スワイプして えらぼう！</span>
           </div>
           <div id="hint-pts-badge" class="text-[11px] font-bold text-amber-600 bg-amber-100 px-2.5 py-0.5 rounded-full">
             ノーヒントで +4pt
@@ -404,10 +393,10 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- 【右側 1/3】数字カード保管庫 -->
+    <!-- 【右側 1/3】数字カード保管庫 (縦中央揃え) -->
     <!-- ========================================== -->
     <div class="w-1/3 h-full bg-pink-100/80 p-2 sm:p-3 flex flex-col justify-center items-center relative border-l-2 border-pink-200 overflow-y-auto">
-      <div id="cards-grid" class="grid grid-cols-4 gap-1.5 sm:gap-2 w-full max-w-[280px]">
+      <div id="cards-grid" class="grid grid-cols-4 gap-1.5 sm:gap-2.5 w-full my-auto">
         <!-- JSで0〜19のカードを生成 -->
       </div>
     </div>
@@ -415,42 +404,55 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- 【モーダル 1】てんをつなごう -->
+  <!-- 【モーダル 1】100個の点つなぎ -->
   <!-- ========================================== -->
-  <div id="dot-modal" class="fixed inset-0 bg-pink-950/80 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-50 p-2 sm:p-4">
-    <div class="w-full max-w-3xl bg-white rounded-3xl p-3 sm:p-6 shadow-2xl border-4 border-rose-300 flex flex-col items-center justify-between relative overflow-hidden">
-      <div class="flex justify-between items-center w-full bg-pink-50/80 px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl border border-pink-200">
-        <h2 class="text-base sm:text-2xl font-black text-rose-600 flex items-center gap-2 font-fredoka">
-          <i class="fa-solid fa-pen-ruler text-pink-500"></i>
-          <span>てんをつなごう！ (<span id="motif-name" class="text-rose-600">ほし</span>)</span>
-        </h2>
-        <div class="text-xs sm:text-base font-black text-gray-700 font-fredoka">
-          つないだ点: <span id="connected-count" class="text-rose-600 text-sm sm:text-xl font-bold">0</span> / 100
+  <div id="dot-modal" class="fixed inset-0 bg-pink-950/75 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-40">
+    <div class="w-full max-w-4xl aspect-[16/9] max-h-[96vh] bg-white rounded-3xl p-3 sm:p-5 shadow-2xl border-4 border-pink-300 flex flex-col justify-between relative overflow-hidden">
+      
+      <div class="flex justify-between items-center bg-pink-50 px-4 py-2 rounded-2xl border border-pink-200">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-pen-ruler text-pink-500 text-xl"></i>
+          <h2 class="text-base sm:text-xl font-black text-pink-600">
+            てんをつなごう！ (<span id="motif-name" class="text-amber-600">モチーフ</span>)
+          </h2>
+        </div>
+        <div class="text-xs sm:text-sm font-extrabold text-gray-600">
+          つないだ点: <span id="connected-count" class="text-pink-600 text-base sm:text-lg font-black font-fredoka">0</span> / 100
         </div>
       </div>
 
-      <div class="my-3 relative flex items-center justify-center w-full">
-        <canvas id="dot-canvas" width="720" height="380" class="w-full max-h-[58vh] object-contain bg-[#fff8f9] rounded-2xl border-2 border-pink-100 shadow-inner"></canvas>
+      <div class="relative flex-1 w-full my-2 bg-gradient-to-b from-pink-50/30 to-rose-50/50 rounded-2xl border border-pink-100 overflow-hidden flex items-center justify-center">
+        <canvas id="dot-canvas" class="w-full h-full block"></canvas>
+
+        <!-- 新ヒーロー出現オーバーレイ -->
+        <div id="hero-run-overlay" class="absolute inset-0 pointer-events-none opacity-0 flex flex-col items-center justify-center z-20 bg-white/80 backdrop-blur-sm p-4">
+          <div id="hero-unlock-card" class="flex flex-col items-center animate-pop-in relative pointer-events-auto bg-white p-4 sm:p-6 rounded-3xl border-4 border-rose-400 shadow-2xl">
+            <div id="hero-unlock-title" class="mb-2 text-rose-600 font-black text-xl sm:text-3xl font-fredoka">
+              🎉 あたらしいヒーローゲット！ 🎉
+            </div>
+            <div id="hero-unlock-svg" class="my-3"></div>
+            <div id="hero-unlock-name" class="text-lg sm:text-2xl font-black text-amber-600 font-fredoka mb-4"></div>
+            <button onclick="dismissHeroOverlayAndFinish()" class="bg-gradient-to-r from-amber-400 to-rose-500 hover:from-amber-500 hover:to-rose-600 text-white font-black text-base sm:text-xl py-2.5 px-8 rounded-2xl shadow-[0_4px_0_#be123c] active:translate-y-1 active:shadow-none transition-all font-fredoka border-2 border-white">
+              つぎへすすむ <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div class="flex items-center justify-between w-full pt-2 border-t border-pink-100 gap-2">
-        <span class="text-[11px] sm:text-sm font-extrabold text-pink-500 flex items-center gap-1">
+      <div class="flex justify-between items-center pt-1">
+        <span class="text-xs sm:text-sm font-bold text-pink-500">
           ポイントのぶん、てんが伸びるよ！100まで繋がるとヒーローがやってくる！
         </span>
-        <button id="close-dot-btn" onclick="finishDotStage()" disabled class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-black text-xs sm:text-base px-5 sm:px-7 py-2 sm:py-2.5 rounded-full shadow-[0_4px_0_#be123c] disabled:opacity-40 disabled:cursor-not-allowed active:translate-y-1 active:shadow-none transition-all flex items-center gap-2 font-fredoka border border-white flex-shrink-0">
-          <span>つぎへすすむ</span>
-          <i class="fa-solid fa-arrow-right"></i>
+        <button id="close-dot-btn" onclick="finishDotStage()" disabled class="bg-gradient-to-r from-pink-400 to-rose-500 hover:from-pink-500 hover:to-rose-600 text-white font-black text-xs sm:text-base py-2 px-5 rounded-2xl shadow-[0_4px_0_#be123c] disabled:opacity-40 disabled:cursor-not-allowed active:translate-y-1 active:shadow-none transition-all">
+          つぎへすすむ <i class="fa-solid fa-arrow-right ml-1"></i>
         </button>
       </div>
 
-      <!-- ヒーローゲット演出オーバーレイ (点つなぎ画面の上に重ねて表示) -->
-      <div id="hero-run-overlay" class="absolute inset-0 bg-pink-950/50 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center gap-3 opacity-0 pointer-events-none transition-opacity duration-300 z-30 p-4">
-      </div>
     </div>
   </div>
 
   <!-- ========================================== -->
-  <!-- 【モーダル 2】ボーナスステージ -->
+  <!-- 【モーダル 2】ボーナスステージ モーダル -->
   <!-- ========================================== -->
   <div id="bonus-modal" class="fixed inset-0 bg-gradient-to-br from-purple-900/90 via-pink-900/90 to-rose-900/90 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-50">
     <div class="w-full max-w-4xl aspect-[16/9] max-h-[96vh] bg-white rounded-3xl p-3 sm:p-5 shadow-2xl border-4 border-yellow-300 flex flex-col justify-between relative overflow-hidden">
@@ -470,7 +472,7 @@
         </div>
       </div>
 
-      <!-- ボーナスエリア A -->
+      <!-- ボーナスステージ A -->
       <div id="bonus-area-a" class="flex-1 flex gap-3 my-2 overflow-hidden">
         <div class="flex-1 flex flex-col justify-between items-center">
           <div class="w-full flex flex-col items-center justify-center gap-1.5 my-auto">
@@ -500,7 +502,7 @@
         </div>
       </div>
 
-      <!-- ボーナスエリア B -->
+      <!-- ボーナスステージ B -->
       <div id="bonus-area-b" class="flex-1 flex gap-3 my-2 overflow-hidden hidden">
         <div class="flex-1 flex flex-col justify-between items-center">
           <div class="w-full flex flex-col items-center justify-center gap-1.5 my-auto">
@@ -537,25 +539,26 @@
   <!-- 【モーダル 3】ヒーローずかん モーダル (5x4) -->
   <!-- ========================================== -->
   <div id="zukan-modal" class="fixed inset-0 bg-pink-950/80 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 z-50 p-2 sm:p-4">
-    <div class="w-full max-w-4xl aspect-[16/9] max-h-[96vh] bg-white rounded-3xl p-2.5 sm:p-4 shadow-2xl border-4 border-sky-300 flex flex-col justify-between relative overflow-hidden">
+    <div class="w-full max-w-4xl aspect-[16/9] max-h-[96vh] bg-white rounded-3xl p-3 sm:p-5 shadow-2xl border-4 border-sky-300 flex flex-col justify-between relative overflow-hidden">
       
-      <div class="flex justify-between items-center bg-sky-50 px-4 py-1.5 rounded-2xl border border-sky-200">
+      <div class="flex justify-between items-center bg-sky-50 px-4 py-2 rounded-2xl border border-sky-200">
         <div class="flex items-center gap-2">
-          <i class="fa-solid fa-book-open text-sky-600 text-xl"></i>
-          <h2 class="text-base sm:text-xl font-black text-sky-800">ヒーローずかん (ぜん20しゅるい)</h2>
+          <i class="fa-solid fa-book-open text-sky-500 text-xl"></i>
+          <h2 class="text-base sm:text-xl font-black text-sky-700">
+            ヒーローずかん (ぜん20しゅるい)
+          </h2>
         </div>
-        <button onclick="closeZukanModal()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1 rounded-full text-xs transition-all">
-          <i class="fa-solid fa-xmark mr-1"></i> とじる
+        <button onclick="closeZukanModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-black text-xs sm:text-sm py-1.5 px-4 rounded-xl shadow active:translate-y-0.5 transition-all">
+          <i class="fa-solid fa-xmark mr-1"></i>とじる
         </button>
       </div>
 
-      <div class="flex-1 my-1.5 overflow-hidden">
-        <div id="zukan-grid" class="grid grid-cols-5 grid-rows-4 gap-1 sm:gap-1.5 h-full w-full"></div>
+      <!-- 20人のヒーローグリッド (5x4) -->
+      <div id="zukan-grid" class="flex-1 my-2 overflow-y-auto grid grid-cols-5 grid-rows-4 gap-2.5 p-2 bg-slate-50 rounded-2xl border border-sky-100">
       </div>
 
-      <div class="flex justify-between items-center bg-pink-50 px-3 py-1 rounded-xl border border-pink-200 text-xs font-bold text-pink-700">
-        <span>100てん つなぐと あたらしい ヒーローが 仲間になるよ！</span>
-        <span>あつめたヒーロー: <span id="zukan-count" class="font-black text-rose-600 font-fredoka text-sm">0</span> / 20</span>
+      <div class="text-center text-xs sm:text-sm font-bold text-sky-600 bg-sky-50 py-1.5 rounded-xl border border-sky-200">
+        ゲームをあそんでポイントをためると、ヒーローたちがやってくるよ！
       </div>
 
     </div>
@@ -563,109 +566,11 @@
 
   <!-- JavaScript App Logic -->
   <script>
-    // 0. 基本データ・定数定義
+    // ==========================================
+    // 0. セーブ＆ロード
+    // ==========================================
     const SAVE_DATA_KEY = 'math-hero-app-progress-v1';
 
-    const HEROES_DATA = [
-      { id: 1, name: 'さくらレッド', color: '#ef4444', suit: '#f87171', colorName: 'レッド', poseName: '正義のキック' },
-      { id: 2, name: 'スカイブルー', color: '#0284c7', suit: '#38bdf8', colorName: 'ブルー', poseName: '疾風ブレイク' },
-      { id: 3, name: 'サンシャイン', color: '#eab308', suit: '#fde047', colorName: 'イエロー', poseName: '閃光パンチ' },
-      { id: 4, name: 'グリーンフォレスト', color: '#22c55e', suit: '#4ade80', colorName: 'グリーン', poseName: '自然のバリア' },
-      { id: 5, name: 'パープルナイト', color: '#a855f7', suit: '#c084fc', colorName: 'パープル', poseName: '幻影ステップ' },
-      { id: 6, name: 'オレンジフレア', color: '#f97316', suit: '#fb923c', colorName: 'オレンジ', poseName: '爆炎キャノン' },
-      { id: 7, name: 'ピンクサクラ', color: '#ec4899', suit: '#f472b6', colorName: 'ピンク', poseName: '華麗なる舞' },
-      { id: 8, name: 'シアンウェーブ', color: '#06b6d4', suit: '#22d3ee', colorName: 'シアン', poseName: '氷結スラッシュ' },
-      { id: 9, name: 'ライムスパーク', color: '#84cc16', suit: '#a3e635', colorName: 'ライム', poseName: '電光石火' },
-      { id: 10, name: 'アンバーボルト', color: '#d97706', suit: '#fbbf24', colorName: 'アンバー', poseName: '大地の大地雷' },
-      { id: 11, name: 'ローズウィング', color: '#f43f5e', suit: '#fb7185', colorName: 'ローズ', poseName: '鳳凰の翼' },
-      { id: 12, name: 'インディゴシャドー', color: '#6366f1', suit: '#818cf8', colorName: 'インディゴ', poseName: '影分身の術' },
-      { id: 13, name: 'エメラルドガーディアン', color: '#10b981', stroke: '#34d399', suit: '#34d399', colorName: 'エメラルド', poseName: '絶対防御' },
-      { id: 14, name: 'ルビーブレード', color: '#e11d48', suit: '#fda4af', colorName: 'ルビー', poseName: '一閃斬り' },
-      { id: 15, name: 'サファイアストーム', color: '#2563eb', suit: '#60a5fa', colorName: 'サファイア', poseName: '竜巻ストーム' },
-      { id: 16, name: 'トパーズシールド', color: '#ca8a04', suit: '#facc15', colorName: 'トパーズ', poseName: '金剛壁' },
-      { id: 17, name: 'クリスタルノヴァ', color: '#14b8a6', suit: '#2dd4bf', colorName: 'クリスタル', poseName: '星屑の光' },
-      { id: 18, name: 'マゼンタスター', color: '#d946ef', suit: '#e879f9', colorName: 'マゼンタ', poseName: '流星キック' },
-      { id: 19, name: 'コバルトゼロ', color: '#1d4ed8', suit: '#3b82f6', colorName: 'コバルト', poseName: '絶対零度' },
-      { id: 20, name: 'ゴールドマックス', color: '#ca8a04', suit: '#fef08a', colorName: 'ゴールド', poseName: '究極覚醒' }
-    ];
-
-    const MOTIFS = [
-      { 
-        name: 'ほし', 
-        fn: () => {
-          const keypoints = [];
-          for (let i = 0; i <= 10; i++) {
-            const angle = (i / 10) * Math.PI * 2 - Math.PI / 2;
-            const r = (i % 2 === 0) ? 0.38 : 0.16;
-            keypoints.push({ x: 0.5 + r * Math.cos(angle), y: 0.5 + r * Math.sin(angle) });
-          }
-          return interpolateKeypoints(keypoints);
-        }
-      },
-      { 
-        name: 'ロケット', 
-        fn: () => interpolateKeypoints([
-          {x:0.5, y:0.08}, {x:0.58, y:0.22}, {x:0.58, y:0.62}, {x:0.78, y:0.75}, 
-          {x:0.58, y:0.75}, {x:0.54, y:0.92}, {x:0.5, y:0.82}, {x:0.46, y:0.92}, 
-          {x:0.42, y:0.75}, {x:0.22, y:0.75}, {x:0.42, y:0.62}, {x:0.42, y:0.22}, {x:0.5, y:0.08}
-        ])
-      },
-      { 
-        name: 'ハート', 
-        fn: () => {
-          const pts = [];
-          for (let i = 0; i < 100; i++) {
-            const t = (i / 100) * Math.PI * 2;
-            const x = 16 * Math.pow(Math.sin(t), 3);
-            const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-            pts.push({ x: 0.5 + x / 38, y: 0.48 + y / 38 });
-          }
-          return pts;
-        }
-      }
-    ];
-
-    function interpolateKeypoints(keypoints, totalPoints = 100) {
-      const points = [];
-      const numSegments = keypoints.length - 1;
-      const ptsPerSegment = totalPoints / numSegments;
-      for (let i = 0; i < numSegments; i++) {
-        const p1 = keypoints[i];
-        const p2 = keypoints[i + 1];
-        const count = Math.round((i + 1) * ptsPerSegment) - Math.round(i * ptsPerSegment);
-        for (let j = 0; j < count; j++) {
-          const t = j / count;
-          points.push({
-            x: p1.x + (p2.x - p1.x) * t,
-            y: p1.y + (p2.y - p1.y) * t
-          });
-        }
-      }
-      while (points.length < totalPoints) {
-        points.push(keypoints[keypoints.length - 1]);
-      }
-      return points.slice(0, totalPoints);
-    }
-
-    // ゲーム変数
-    let unlockedHeroIds = [];
-    let stage = 1;
-    let problemIndex = 0;
-    let currentProblems = [];
-    let totalScore = 0;
-    let nextBonusScoreThreshold = 50;
-    let isHintUsedCurrentProblem = false;
-    let cherryLeftOpen = false;
-    let cherryRightOpen = false;
-    let isLocked = false;
-    let stagePointsGained = 0;
-    let draggedNumber = null;
-    let problemPool = [];
-    let currentMotifIndex = 0;
-    let dotPoints = [];
-    let connectedDotCount = 0;
-
-    // セーブ＆ロード関数
     function saveGameProgress() {
       try {
         const saveData = {
@@ -721,7 +626,9 @@
       }
     }
 
-    // サウンド再生システム
+    // ==========================================
+    // 1. サウンドシステム (Web Audio API)
+    // ==========================================
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
 
@@ -830,13 +737,42 @@
       }
     }
 
-    function createHeroSVG(hero, size = 50) {
+    // ==========================================
+    // 2. ヒーロー20種データ
+    // 初期アンロックヒーローは空[]
+    // ==========================================
+    const HEROES_DATA = [
+      { id: 1, name: 'さくらレッド', color: '#ef4444', suit: '#f87171', colorName: 'レッド', poseName: '正義のキック' },
+      { id: 2, name: 'スカイブルー', color: '#0284c7', suit: '#38bdf8', colorName: 'ブルー', poseName: '疾風ブレイク' },
+      { id: 3, name: 'サンシャイン', color: '#eab308', suit: '#fde047', colorName: 'イエロー', poseName: '閃光パンチ' },
+      { id: 4, name: 'グリーンフォレスト', color: '#22c55e', suit: '#4ade80', colorName: 'グリーン', poseName: '自然のバリア' },
+      { id: 5, name: 'パープルナイト', color: '#a855f7', suit: '#c084fc', colorName: 'パープル', poseName: '幻影ステップ' },
+      { id: 6, name: 'オレンジフレア', color: '#f97316', suit: '#fb923c', colorName: 'オレンジ', poseName: '爆炎キャノン' },
+      { id: 7, name: 'ピンクサクラ', color: '#ec4899', suit: '#f472b6', colorName: 'ピンク', poseName: '華麗なる舞' },
+      { id: 8, name: 'シアンウェーブ', color: '#06b6d4', suit: '#22d3ee', colorName: 'シアン', poseName: '氷結スラッシュ' },
+      { id: 9, name: 'ライムスパーク', color: '#84cc16', suit: '#a3e635', colorName: 'ライム', poseName: '電光石火' },
+      { id: 10, name: 'アンバーボルト', color: '#d97706', suit: '#fbbf24', colorName: 'アンバー', poseName: '大地の大地雷' },
+      { id: 11, name: 'ローズウィング', color: '#f43f5e', suit: '#fb7185', colorName: 'ローズ', poseName: '鳳凰の翼' },
+      { id: 12, name: 'インディゴシャドー', color: '#6366f1', suit: '#818cf8', colorName: 'インディゴ', poseName: '影分身の術' },
+      { id: 13, name: 'エメラルドガーディアン', color: '#10b981', suit: '#34d399', colorName: 'エメラルド', poseName: '絶対防御' },
+      { id: 14, name: 'ルビーブレード', color: '#e11d48', suit: '#fda4af', colorName: 'ルビー', poseName: '一閃斬り' },
+      { id: 15, name: 'サファイアストーム', color: '#2563eb', suit: '#60a5fa', colorName: 'サファイア', poseName: '竜巻ストーム' },
+      { id: 16, name: 'トパーズシールド', color: '#ca8a04', suit: '#facc15', colorName: 'トパーズ', poseName: '金剛壁' },
+      { id: 17, name: 'クリスタルノヴァ', color: '#14b8a6', suit: '#2dd4bf', colorName: 'クリスタル', poseName: '星屑の光' },
+      { id: 18, name: 'マゼンタスター', color: '#d946ef', suit: '#e879f9', colorName: 'マゼンタ', poseName: '流星キック' },
+      { id: 19, name: 'コバルトゼロ', color: '#1d4ed8', suit: '#3b82f6', colorName: 'コバルト', poseName: '絶対零度' },
+      { id: 20, name: 'ゴールドマックス', color: '#ca8a04', suit: '#fef08a', colorName: 'ゴールド', poseName: '究極覚醒' }
+    ];
+
+    let unlockedHeroIds = [];
+
+    function createHeroSVG(hero, size = 44) {
       if (!hero) return '';
       const c = hero.color || '#ef4444';
       const s = hero.suit || '#f87171';
       
       return `
-        <svg width="${size}" height="${size}" viewBox="0 0 60 70" class="drop-shadow-md select-none pointer-events-none">
+        <svg width="${size}" height="${size * 1.2}" viewBox="0 0 60 70" class="drop-shadow-md select-none pointer-events-none">
           <circle cx="30" cy="35" r="28" fill="${c}" opacity="0.15"/>
           <path d="M 18 28 L 6 58 L 22 52 L 30 58 L 38 52 L 54 58 L 42 28 Z" fill="${c}"/>
           <rect x="20" y="26" width="20" height="24" rx="4" fill="${s}" stroke="${c}" stroke-width="2"/>
@@ -853,68 +789,6 @@
       `;
     }
 
-    function triggerHeroRunIn() {
-      playSound('hero-appear');
-
-      let newHeroId = unlockedHeroIds.length + 1;
-      if (newHeroId > 20) newHeroId = (unlockedHeroIds.length % 20) + 1;
-      if (!unlockedHeroIds.includes(newHeroId)) {
-        unlockedHeroIds.push(newHeroId);
-      }
-
-      const hero = HEROES_DATA.find(h => h.id === newHeroId) || HEROES_DATA[0];
-
-      const overlay = document.getElementById('hero-run-overlay');
-      overlay.innerHTML = `
-        <div class="flex flex-col items-center animate-hero-run relative bg-white/95 p-5 rounded-3xl border-4 border-rose-400 shadow-2xl">
-          <div class="mb-2 bg-rose-50 text-rose-600 font-black text-xl sm:text-2xl px-5 py-2 rounded-2xl border-2 border-rose-400 shadow-md relative font-fredoka">
-            🎉 あたらしいヒーロー！ ${hero.name}!! 🎉
-          </div>
-          ${createHeroSVG(hero, 110)}
-          <button onclick="dismissHeroOverlayAndFinish()" class="mt-4 bg-gradient-to-r from-amber-400 via-rose-500 to-pink-500 hover:from-amber-500 hover:to-pink-600 text-white font-black text-lg px-6 py-2.5 rounded-2xl shadow-[0_4px_0_#be123c] active:translate-y-1 active:shadow-none transition-all font-fredoka border-2 border-white cursor-pointer">
-            つぎへすすむ <i class="fa-solid fa-arrow-right ml-1"></i>
-          </button>
-        </div>
-      `;
-
-      overlay.classList.remove('opacity-0', 'pointer-events-none');
-      updateHeroDock();
-      saveGameProgress();
-
-      confetti({
-        particleCount: 100,
-        spread: 100,
-        origin: { y: 0.5 }
-      });
-    }
-
-    function finishDotStage() {
-      playSound('tap');
-      document.getElementById('dot-modal').classList.add('opacity-0', 'pointer-events-none');
-
-      if (connectedDotCount >= 100) {
-        connectedDotCount = 0;
-        loadRandomMotif();
-      }
-
-      if (totalScore >= nextBonusScoreThreshold) {
-        nextBonusScoreThreshold += 50;
-        saveGameProgress();
-        startBonusStage();
-      } else {
-        startStage();
-      }
-    }
-
-    function dismissHeroOverlayAndFinish() {
-      playSound('tap');
-      const overlay = document.getElementById('hero-run-overlay');
-      if (overlay) {
-        overlay.classList.add('opacity-0', 'pointer-events-none');
-      }
-      finishDotStage();
-    }
-
     function updateHeroDock() {
       const dock = document.getElementById('hero-dock');
       if (!dock) return;
@@ -925,85 +799,109 @@
         if (hero) {
           const wrapper = document.createElement('div');
           wrapper.className = "flex-shrink-0 flex flex-col items-center hover:scale-110 transition-transform cursor-pointer";
-          wrapper.innerHTML = createHeroSVG(hero, 34);
+          wrapper.innerHTML = createHeroSVG(hero, 44);
           dock.appendChild(wrapper);
         }
       });
     }
 
-    function openZukanModal() {
-      playSound('tap');
-      renderZukanGrid();
-      const modal = document.getElementById('zukan-modal');
-      if (modal) {
-        modal.classList.remove('opacity-0', 'pointer-events-none');
+    // ==========================================
+    // 3. 点つなぎ20種類の形状
+    // ==========================================
+    function interpolateKeypoints(keypoints, totalPoints = 100) {
+      const points = [];
+      const numSegments = keypoints.length - 1;
+      const ptsPerSegment = totalPoints / numSegments;
+
+      for (let i = 0; i < numSegments; i++) {
+        const p1 = keypoints[i];
+        const p2 = keypoints[i + 1];
+        const count = Math.round((i + 1) * ptsPerSegment) - Math.round(i * ptsPerSegment);
+
+        for (let j = 0; j < count; j++) {
+          const t = j / count;
+          points.push({
+            x: p1.x + (p2.x - p1.x) * t,
+            y: p1.y + (p2.y - p1.y) * t
+          });
+        }
       }
-    }
-
-    function closeZukanModal() {
-      playSound('tap');
-      const modal = document.getElementById('zukan-modal');
-      if (modal) {
-        modal.classList.add('opacity-0', 'pointer-events-none');
+      while (points.length < totalPoints) {
+        points.push(keypoints[keypoints.length - 1]);
       }
+      return points.slice(0, totalPoints);
     }
 
-    function renderZukanGrid() {
-      const grid = document.getElementById('zukan-grid');
-      if (!grid) return;
-      grid.innerHTML = '';
-      const countElem = document.getElementById('zukan-count');
-      if (countElem) countElem.innerText = unlockedHeroIds.length;
-
-      HEROES_DATA.forEach(hero => {
-        const isUnlocked = unlockedHeroIds.includes(hero.id);
-        const card = document.createElement('div');
-        
-        card.className = `relative flex flex-col items-center justify-between p-1 rounded-xl border transition-all h-full overflow-hidden ${
-          isUnlocked 
-            ? 'bg-gradient-to-b from-white to-pink-50 border-pink-300 shadow-sm' 
-            : 'bg-gray-100 border-gray-300 opacity-60'
-        }`;
-
-        card.innerHTML = `
-          <div class="absolute top-0.5 left-0.5 bg-gray-800 text-white font-extrabold text-[9px] sm:text-[10px] px-1.5 py-0.2 rounded-full z-10 shadow">
-            ${hero.colorName}
-          </div>
-          ${isUnlocked ? '<div class="absolute top-0.5 right-0.5 bg-amber-400 text-amber-950 font-black text-[8px] sm:text-[9px] px-1 py-0.2 rounded-full z-10 shadow">ゲット!</div>' : ''}
-          <div class="flex-1 my-0.5 flex items-center justify-center">
-            ${isUnlocked ? createHeroSVG(hero, 34) : '<div class="w-8 h-10 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-sm font-bold"><i class="fa-solid fa-question"></i></div>'}
-          </div>
-          <div class="text-center w-full leading-tight">
-            <div class="text-[9px] sm:text-[11px] font-black ${isUnlocked ? 'text-gray-800' : 'text-gray-400'} font-fredoka truncate">
-              ${isUnlocked ? hero.name : '？？？？？'}
-            </div>
-            <div class="text-[8px] sm:text-[9px] font-bold ${isUnlocked ? 'text-pink-600' : 'text-gray-400'} truncate">
-              ${hero.poseName}
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function startGameFromTitle() {
-      playSound('tap');
-      const titleScreen = document.getElementById('title-screen');
-      if (titleScreen) {
-        titleScreen.classList.add('transition-opacity', 'duration-500', 'opacity-0', 'pointer-events-none');
-        setTimeout(() => {
-          titleScreen.style.display = 'none';
-        }, 500);
+    const MOTIFS = [
+      { 
+        name: 'ロケット', 
+        fn: () => interpolateKeypoints([
+          {x:0.5, y:0.08}, {x:0.58, y:0.22}, {x:0.58, y:0.62}, {x:0.78, y:0.75}, 
+          {x:0.58, y:0.75}, {x:0.54, y:0.92}, {x:0.5, y:0.82}, {x:0.46, y:0.92}, 
+          {x:0.42, y:0.75}, {x:0.22, y:0.75}, {x:0.42, y:0.62}, {x:0.42, y:0.22}, {x:0.5, y:0.08}
+        ])
+      },
+      { 
+        name: 'ハート', 
+        fn: () => {
+          const pts = [];
+          for (let i = 0; i < 100; i++) {
+            const t = (i / 100) * Math.PI * 2;
+            const x = 16 * Math.pow(Math.sin(t), 3);
+            const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+            pts.push({ x: 0.5 + x / 38, y: 0.48 + y / 38 });
+          }
+          return pts;
+        }
+      },
+      { 
+        name: 'ほし', 
+        fn: () => {
+          const keypoints = [];
+          for (let i = 0; i <= 10; i++) {
+            const angle = (i / 10) * Math.PI * 2 - Math.PI / 2;
+            const r = (i % 2 === 0) ? 0.38 : 0.16;
+            keypoints.push({ x: 0.5 + r * Math.cos(angle), y: 0.5 + r * Math.sin(angle) });
+          }
+          return interpolateKeypoints(keypoints);
+        }
+      },
+      { 
+        name: 'おうかん', 
+        fn: () => interpolateKeypoints([
+          {x:0.18, y:0.78}, {x:0.82, y:0.78}, {x:0.85, y:0.32}, {x:0.68, y:0.52}, 
+          {x:0.5, y:0.22}, {x:0.32, y:0.52}, {x:0.15, y:0.32}, {x:0.18, y:0.78}
+        ])
       }
-    }
+    ];
+
+    let currentMotifIndex = 0;
+    let dotPoints = [];
+    let connectedDotCount = 0;
 
     function loadRandomMotif() {
       const randomIndex = Math.floor(Math.random() * MOTIFS.length);
       currentMotifIndex = randomIndex;
-      const elem = document.getElementById('motif-name');
-      if (elem) elem.innerText = MOTIFS[currentMotifIndex].name;
+      document.getElementById('motif-name').innerText = MOTIFS[currentMotifIndex].name;
       dotPoints = MOTIFS[currentMotifIndex].fn();
     }
+
+    // ==========================================
+    // 4. ゲーム基本状態
+    // ==========================================
+    let stage = 1;
+    let problemIndex = 0;
+    let currentProblems = [];
+    let totalScore = 0;
+    let nextBonusScoreThreshold = 50;
+    let isHintUsedCurrentProblem = false;
+    let cherryLeftOpen = false;
+    let cherryRightOpen = false;
+    let isLocked = false;
+    let stagePointsGained = 0;
+    let draggedNumber = null;
+
+    let problemPool = [];
 
     function initProblemPool() {
       const pool = [];
@@ -1033,6 +931,40 @@
       return probs;
     }
 
+    function initApp() {
+      const hasSavedProgress = loadGameProgress();
+      if (!hasSavedProgress || !dotPoints.length) {
+        loadRandomMotif();
+      } else {
+        document.getElementById('motif-name').innerText = MOTIFS[currentMotifIndex].name;
+      }
+      renderNumberCards();
+
+      if (hasSavedProgress && currentProblems.length === 3) {
+        if (problemIndex >= 3) {
+          stage++;
+          updateHeaderUI();
+          openDotModal(stagePointsGained);
+        } else {
+          renderProblem();
+        }
+      } else {
+        startStage();
+      }
+    }
+
+    function startGameFromTitle() {
+      initAudio();
+      playSound('tap');
+      const titleScreen = document.getElementById('title-screen');
+      if (titleScreen) {
+        titleScreen.classList.add('transition-opacity', 'duration-500', 'opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          titleScreen.style.display = 'none';
+        }, 500);
+      }
+    }
+
     function startStage() {
       currentProblems = generateProblems();
       problemIndex = 0;
@@ -1049,7 +981,6 @@
       cherryRightOpen = false;
 
       const p = currentProblems[problemIndex];
-      if (!p) return;
       document.getElementById('num1').innerText = p.num1;
       document.getElementById('num2').innerText = p.num2;
       document.getElementById('answer-text').innerText = '?';
@@ -1059,6 +990,8 @@
       wrapper.classList.add('opacity-0', 'pointer-events-none');
       document.getElementById('cherry-left-text').innerText = '?';
       document.getElementById('cherry-right-text').innerText = '?';
+
+      // 外枠の緑化クラスをクリア
       document.getElementById('cherry-left').className = "drop-zone cherry-node w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-transform shadow-md";
       document.getElementById('cherry-right').className = "drop-zone cherry-node w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-transform shadow-md";
 
@@ -1067,7 +1000,7 @@
 
       document.getElementById('cherry-guide').classList.add('opacity-0');
       document.getElementById('hint-pts-badge').innerText = "ノーヒントで +4pt";
-      document.getElementById('msg-text').innerText = "みぎのカードをすべらせて（スワイプして）ね！";
+      document.getElementById('msg-text').innerText = "みぎのすうじカードをスワイプしてね！";
 
       updateHeaderUI();
     }
@@ -1078,24 +1011,20 @@
 
       for (let i = 1; i <= 3; i++) {
         const star = document.getElementById(`star-${i}`);
-        if (star) {
-          if (i <= problemIndex) {
-            star.className = "fa-solid fa-star text-amber-400 text-base sm:text-xl transition-all scale-110";
-          } else {
-            star.className = "fa-solid fa-star text-pink-200 text-base sm:text-xl transition-all";
-          }
+        if (i <= problemIndex) {
+          star.className = "fa-solid fa-star text-amber-400 text-base sm:text-xl transition-all scale-110";
+        } else {
+          star.className = "fa-solid fa-star text-pink-200 text-base sm:text-xl transition-all";
         }
       }
 
       const progressToBonus = (totalScore % 50);
       const pct = (progressToBonus / 50) * 100;
-      const bonusBar = document.getElementById('bonus-bar');
-      if (bonusBar) bonusBar.style.width = `${pct}%`;
+      document.getElementById('bonus-bar').style.width = `${pct}%`;
     }
 
     function renderNumberCards() {
       const grid = document.getElementById('cards-grid');
-      if (!grid) return;
       grid.innerHTML = '';
       for (let i = 0; i <= 19; i++) {
         const btn = document.createElement('div');
@@ -1113,6 +1042,9 @@
       }
     }
 
+    // ==========================================
+    // 5. ドラッグ＆ドロップ処理
+    // ==========================================
     function handleDragStart(e, num) {
       draggedNumber = num;
       e.dataTransfer.setData('text/plain', num.toString());
@@ -1190,6 +1122,7 @@
       document.getElementById('msg-text').innerText = "さくらんぼを つかって 10 をつくろう！";
     }
 
+    // さくらんぼへ正答ドラッグ時の処理（外枠のみ緑色に変更）
     function processCherryDrop(num, side) {
       if (isLocked) return;
       const p = currentProblems[problemIndex];
@@ -1201,6 +1134,7 @@
           cherryLeftOpen = true;
           playSound('cherry');
           document.getElementById('cherry-left-text').innerText = num;
+          // 外枠のみ緑色にするクラスを追加（背景グラデーションはそのまま）
           document.getElementById('cherry-left').classList.add('correct-cherry');
         } else {
           playSound('wrong');
@@ -1214,6 +1148,7 @@
           cherryRightOpen = true;
           playSound('cherry');
           document.getElementById('cherry-right-text').innerText = num;
+          // 外枠のみ緑色にするクラスを追加（背景グラデーションはそのまま）
           document.getElementById('cherry-right').classList.add('correct-cherry');
         } else {
           playSound('wrong');
@@ -1324,6 +1259,11 @@
       }
     }
 
+    // ==========================================
+    // 6. 点つなぎモーダル ＆ 新ヒーロー獲得演出
+    // ==========================================
+    let animDotTarget = 0;
+
     function openDotModal(ptsToAdd) {
       const modal = document.getElementById('dot-modal');
       modal.classList.remove('opacity-0', 'pointer-events-none');
@@ -1332,7 +1272,7 @@
       document.getElementById('hero-run-overlay').classList.add('opacity-0', 'pointer-events-none');
 
       const startCount = connectedDotCount;
-      const animDotTarget = Math.min(100, connectedDotCount + ptsToAdd);
+      animDotTarget = Math.min(100, connectedDotCount + ptsToAdd);
 
       let current = startCount;
       const interval = setInterval(() => {
@@ -1397,30 +1337,115 @@
       }
     }
 
-    function initApp() {
-      const hasSavedProgress = loadGameProgress();
-      if (!hasSavedProgress || !dotPoints.length) {
-        loadRandomMotif();
-      } else {
-        const elem = document.getElementById('motif-name');
-        if (elem) elem.innerText = MOTIFS[currentMotifIndex].name;
-      }
-      renderNumberCards();
+    function triggerHeroRunIn() {
+      playSound('hero-appear');
 
-      if (hasSavedProgress && currentProblems.length === 3) {
-        if (problemIndex >= 3) {
-          stage++;
-          updateHeaderUI();
-          openDotModal(stagePointsGained);
-        } else {
-          renderProblem();
-        }
+      let newHeroId = unlockedHeroIds.length + 1;
+      if (newHeroId > 20) newHeroId = (unlockedHeroIds.length % 20) + 1;
+      if (!unlockedHeroIds.includes(newHeroId)) {
+        unlockedHeroIds.push(newHeroId);
+      }
+
+      const hero = HEROES_DATA.find(h => h.id === newHeroId) || HEROES_DATA[0];
+
+      document.getElementById('hero-unlock-svg').innerHTML = createHeroSVG(hero, 70);
+      document.getElementById('hero-unlock-name').innerText = `${hero.name} をゲット！`;
+
+      const overlay = document.getElementById('hero-run-overlay');
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      
+      updateHeroDock();
+      saveGameProgress();
+
+      confetti({
+        particleCount: 100,
+        spread: 100,
+        origin: { y: 0.5 }
+      });
+    }
+
+    function dismissHeroOverlayAndFinish() {
+      playSound('tap');
+      document.getElementById('hero-run-overlay').classList.add('opacity-0', 'pointer-events-none');
+      finishDotStage();
+    }
+
+    function finishDotStage() {
+      playSound('tap');
+      document.getElementById('dot-modal').classList.add('opacity-0', 'pointer-events-none');
+
+      if (connectedDotCount >= 100) {
+        connectedDotCount = 0;
+        loadRandomMotif();
+      }
+
+      if (totalScore >= nextBonusScoreThreshold) {
+        nextBonusScoreThreshold += 50;
+        saveGameProgress();
+        startBonusStage();
       } else {
         startStage();
       }
     }
 
-    // グローバルスコープ登録
+    // ==========================================
+    // 7. ヒーローずかん モーダル (5x4)
+    // ==========================================
+    function renderZukanGrid() {
+      const grid = document.getElementById('zukan-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      HEROES_DATA.forEach(hero => {
+        const isUnlocked = unlockedHeroIds.includes(hero.id);
+        const card = document.createElement('div');
+        card.className = `bg-white rounded-2xl p-1.5 border-2 ${isUnlocked ? 'border-sky-400 shadow-md bg-gradient-to-b from-white to-sky-50/50' : 'border-gray-200 opacity-60'} flex flex-col items-center justify-between text-center relative overflow-hidden transition-all`;
+        
+        card.innerHTML = `
+          <div class="absolute top-0.5 left-1 bg-sky-100 text-sky-800 border border-sky-300 font-black text-[9px] px-1 rounded shadow-xs">
+            ${hero.colorName}
+          </div>
+
+          ${isUnlocked ? `
+            <div class="absolute top-0.5 right-1 bg-amber-400 text-amber-950 font-black text-[8px] px-1 rounded-full shadow-xs flex items-center gap-0.5">
+              ゲット!
+            </div>
+          ` : ''}
+
+          <div class="text-[10px] font-black ${isUnlocked ? 'text-sky-800 bg-sky-100 border border-sky-300 shadow-xs' : 'text-gray-400 bg-gray-100'} px-1.5 py-0.2 rounded-full mb-0.5 w-full truncate font-fredoka text-center mt-3">
+            ${isUnlocked ? hero.name : '？？？？？'}
+          </div>
+
+          <div class="my-0.5 flex items-center justify-center h-12 ${isUnlocked ? '' : 'brightness-0 opacity-25'}">
+            ${createHeroSVG(hero, 34)}
+          </div>
+
+          <div class="text-[9px] font-bold text-gray-600 bg-gray-100 px-1 py-0.2 rounded w-full truncate mt-0.5">
+            ${hero.poseName}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openZukanModal() {
+      playSound('tap');
+      renderZukanGrid();
+      const modal = document.getElementById('zukan-modal');
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    function closeZukanModal() {
+      playSound('tap');
+      const modal = document.getElementById('zukan-modal');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    // イベントバインド
     window.startGameFromTitle = startGameFromTitle;
     window.openZukanModal = openZukanModal;
     window.closeZukanModal = closeZukanModal;
@@ -1440,6 +1465,15 @@
       window.addEventListener('touchcancel', cleanupTouchElement, false);
       window.addEventListener('touchend', function() {
         setTimeout(cleanupTouchElement, 100);
+      }, false);
+
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+          e.preventDefault();
+        }
+        lastTouchEnd = now;
       }, false);
 
       initApp();
